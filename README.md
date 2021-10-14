@@ -1,9 +1,9 @@
 # AdForm.Todo
 Assignment for Adform Client to create Todo Service.
-
 This app is desgined using `Hexagonal Architecture` and `Reference Architecture`.
+Must have VS 2019 and .net core 3.1
 ## Tech Stack:
-* .Net code 3.1
+* .Net core 3.1
 * Xunit
 * Entityframework
 * Swashbuckle
@@ -29,15 +29,10 @@ This app is desgined using `Hexagonal Architecture` and `Reference Architecture`
 7. User must be logged in to use the API `Not Done`
 8. Create and update date should be available for both `Done` 
 
-## Non-functional requirements:
-Solution:
-* The solution must contain layered infrastructure and use dependency injection `Done`
-* Logging must be used (logging level could be changed in configuration files) `Not Done`
-* Requests, responses, and errors should be available in logs `Done`
-* The solution must be tested `Partial Done`
-* The solution should support settings for different environments (dev and production) `Done`
-* The local database should be used to store the data `Done`
-* Readme file with documentation and how to run the solution `Done`
-* The solution could be run using Docker containers `Not done due to environment`
-* Add GraphQL implementation to this API (playground endpoint enabling to do the queries for the API). The hot Chocolate library can be
-used - https://hotchocolate.io/ `Partial Done`
+
+## How to configure the Application
+* Clone the application 
+* Attach the database from `database` directory to Visual studio 
+* Restore the packages of solution
+* Build the solution 
+* Start application by F5
