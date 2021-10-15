@@ -59,12 +59,12 @@ namespace Adform.Todo.Manager.Default
             return _todoListCommand.Update(_mapper.Map<ToDoList>(itemList));
         }
         /// <summary>
-        /// to update the lable of list
+        /// to update the label of list
         /// </summary>
         /// <param name="listId"></param>
-        /// <param name="lableId"></param>
+        /// <param name="labelId"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> UpdateLable(int listId, int lableId)
+        public async Task<int> Updatelabel(int listId, int labelId)
         {
             var list = await _todoListQuery.GetbyId(listId);
             if (list == null)
@@ -73,7 +73,7 @@ namespace Adform.Todo.Manager.Default
             }
             else
             {
-                list.LabelId = lableId;
+                list.LabelId = labelId;
                 return await _todoListCommand.Update(list);
             }
 

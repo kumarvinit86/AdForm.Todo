@@ -59,12 +59,12 @@ namespace Adform.Todo.Manager.Default
         }
 
         /// <summary>
-        /// to update lable to item
+        /// to update label to item
         /// </summary>
         /// <param name="itemId"></param>
-        /// <param name="lableId"></param>
+        /// <param name="labelId"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> UpdateLable(int itemId, int lableId)
+        public async Task<int> Updatelabel(int itemId, int labelId)
         {
             var item = await _todoItemQuery.GetbyId(itemId);
             if (item == null)
@@ -73,7 +73,7 @@ namespace Adform.Todo.Manager.Default
             }
             else
             {
-                item.LabelId = lableId;
+                item.LabelId = labelId;
                 return await _todoItemCommand.Update(item);
             }
                 

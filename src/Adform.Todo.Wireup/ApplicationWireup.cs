@@ -15,6 +15,7 @@ using Adform.Todo.DomainService.Default;
 using Adform.Todo.DomainService;
 using Adform.Todo.Manager;
 using Adform.Todo.Manager.Default;
+using Adform.Todo.Wireup.Authentication;
 
 namespace Adform.Todo.Wireup
 {
@@ -57,7 +58,7 @@ namespace Adform.Todo.Wireup
                     configuration.GetValue<string>("Connection:UserName"),
                     configuration.GetValue<string>("Connection:Password")));
             Container.RegisterInstance<IDbLogger>(dbLogger);
-            
+           
             _services.AddSingleton(
                 new DatabaseConnection()
                 {
@@ -67,28 +68,31 @@ namespace Adform.Todo.Wireup
                     Password = configuration.GetValue<string>("Connection:Password")
                 });
 
-            Container.Register<ILableCommand, LableCommand>(Lifestyle.Transient);
-            Container.Register<ILableQuery, LableQuery>(Lifestyle.Transient);
+            Container.Register<ILabelCommand, LabelCommand>(Lifestyle.Transient);
+            Container.Register<ILabelQuery, LabelQuery>(Lifestyle.Transient);
             Container.Register<ITodoItemCommand, TodoItemCommand>(Lifestyle.Transient);
             Container.Register<ITodoItemQuery, TodoItemQuery>(Lifestyle.Transient);
             Container.Register<ITodoListCommand, TodoListCommand>(Lifestyle.Transient);
             Container.Register<ITodoListQuery, TodoListQuery>(Lifestyle.Transient);
             Container.Register<IUserQuery, UserQuery>(Lifestyle.Transient);
+            Container.Register<IUserCommand, UserCommand>(Lifestyle.Transient);
+            Container.Register<IJsonWebTokenHandler,JsonWebTokenHandler>(Lifestyle.Transient);
 
-            Container.Register<ILableQueryManager, LableQueryManager>(Lifestyle.Transient);
-            Container.Register<ILableCommandManager, LableCommandManager>(Lifestyle.Transient);
+            Container.Register<ILabelQueryManager, LabelQueryManager>(Lifestyle.Transient);
+            Container.Register<ILabelCommandManager, LabelCommandManager>(Lifestyle.Transient);
             Container.Register<ITodoItemCommandManager, TodoItemCommandManager>(Lifestyle.Transient);
             Container.Register<ITodoItemQueryManager, TodoItemQueryManager>(Lifestyle.Transient);
             Container.Register<ITodoListCommandManager, TodoListCommandManager>(Lifestyle.Transient);
             Container.Register<ITodoListQueryManager, TodoListQueryManager>(Lifestyle.Transient);
             Container.Register<IUserQueryManager, UserQueryManager>(Lifestyle.Transient);
+            Container.Register<IUserCommandManager, UserCommandManager>(Lifestyle.Transient);
 
             Container.Register<ICommandRepository<ToDoItem>, CommandRepository<ToDoItem>>(Lifestyle.Scoped);
             Container.Register<IQueryRepository<ToDoItem>, QueryRepository<ToDoItem>>(Lifestyle.Scoped);
             Container.Register<ICommandRepository<ToDoList>, CommandRepository<ToDoList>>(Lifestyle.Scoped);
             Container.Register<IQueryRepository<ToDoList>, QueryRepository<ToDoList>>(Lifestyle.Scoped);
-            Container.Register<ICommandRepository<TodoLable>, CommandRepository<TodoLable>>(Lifestyle.Scoped);
-            Container.Register<IQueryRepository<TodoLable>, QueryRepository<TodoLable>>(Lifestyle.Scoped);
+            Container.Register<ICommandRepository<TodoLabel>, CommandRepository<TodoLabel>>(Lifestyle.Scoped);
+            Container.Register<IQueryRepository<TodoLabel>, QueryRepository<TodoLabel>>(Lifestyle.Scoped);
             Container.Register<ICommandRepository<User>, CommandRepository<User>>(Lifestyle.Scoped);
             Container.Register<IQueryRepository<User>, QueryRepository<User>>(Lifestyle.Scoped);
 

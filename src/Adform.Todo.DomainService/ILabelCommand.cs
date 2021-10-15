@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 
 namespace Adform.Todo.DomainService
 {
-    public interface IUserCommand
-    {
-		Task<int> Add(User user);
+    public interface ILabelCommand
+	{
+		Task<int> Add(TodoLabel toDoItem);
+		Task<int> DeletebyId(int id);
 	}
 }

@@ -44,7 +44,7 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
                     .ToTable("ToDoItems").HasOne(t => t.Label).WithOne(l=>l.TodoItem);
             modelBuilder.Entity<User>()
                    .ToTable("Users");
-            modelBuilder.Entity<TodoLable>()
+            modelBuilder.Entity<TodoLabel>()
                   .ToTable("Labels");
             modelBuilder.Entity<ToDoList>()
                   .ToTable("ToDoLists");

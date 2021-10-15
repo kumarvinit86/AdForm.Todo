@@ -9,6 +9,6 @@ namespace Adform.Todo.Manager
         Task<int> Update(Item item);
         Task<int> Delete(Item item);
         Task<int> DeletebyId(int id);
-        Task<int> UpdateLable(int itemId, int lableId);
+        Task<int> Updatelabel(int itemId, int labelId);
     }
 }
