@@ -35,7 +35,7 @@ namespace Adform.Todo.Api.Controllers
         [HttpPost]
         [SwaggerRequestExample(typeof(AppUser), typeof(AppUser))]
         [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] AppUser appUser)
         {
             var userdata = _userQueryManager.ValidateUser(appUser);
@@ -51,7 +51,12 @@ namespace Adform.Todo.Api.Controllers
             }
             else
             {
-               return Unauthorized();            
+               return BadRequest(new AutherizationResponse()
+               {
+                   IsValidUser = false,
+                   AuthToken = string.Empty,
+                   Message = "Username and Password are incorrect."
+               });            
             }
         }
         // POST todo/<LoginController>/register

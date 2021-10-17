@@ -23,3 +23,6 @@ dotnet_diagnostic.S3881.severity = none
 
 # S3168: "async" methods should not return "void"
 dotnet_diagnostic.S3168.severity = none
+
+# S4144: Methods should not have identical implementations
+dotnet_diagnostic.S4144.severity = none

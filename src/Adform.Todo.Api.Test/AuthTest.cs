@@ -29,15 +29,15 @@ namespace Adform.Todo.Api.Test
             userQueryManager.Setup(x => x.ValidateUser(userParameter)).Returns(shouldReturn);
             jsonWebTokenHandler.Setup(x => x.GenerateJSONWebToken(It.IsAny<string>())).Returns(string.Empty);
 
-            var loginController = new AuthController(userQueryManager.Object, null, null, jsonWebTokenHandler.Object);
+            var authController = new AuthController(userQueryManager.Object, null, null, jsonWebTokenHandler.Object);
             //Act
-            var result = (ObjectResult)loginController.Post(userParameter);
+            var result = (ObjectResult)authController.Post(userParameter);
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
         [Fact]
-        public void Should_Return_Unauthorise_Status_for_Wrong_Credential()
+        public void Should_Return_BadRequest_Status_for_Wrong_Credential()
         {
             //Arrange
             var fixture = new Fixture();
@@ -47,11 +47,11 @@ namespace Adform.Todo.Api.Test
             User user = null;
             userQueryManager.Setup(x => x.ValidateUser(userParameter)).Returns(user);
             jsonWebTokenHandler.Setup(x => x.GenerateJSONWebToken(It.IsAny<string>())).Returns(string.Empty);
-            var loginController = new AuthController(userQueryManager.Object, null, null, jsonWebTokenHandler.Object);
+            var authController = new AuthController(userQueryManager.Object, null, null, jsonWebTokenHandler.Object);
             //Act
-            var result = (UnauthorizedResult)loginController.Post(userParameter);
+            var result = (BadRequestObjectResult)authController.Post(userParameter);
             //Assert
-            result.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
+            result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
         }
 
         [Fact]
@@ -65,9 +65,9 @@ namespace Adform.Todo.Api.Test
             var shouldReturn = Task.Run(() => { return 1; });
             userCommandManager.Setup(x => x.Add(userParameter)).Returns(shouldReturn);
 
-            var loginController = new AuthController(null, userCommandManager.Object, logger.Object,null);
+            var authController = new AuthController(null, userCommandManager.Object, logger.Object,null);
             //Act
-            var result = (ObjectResult)loginController.PostRegisterUser(userParameter).Result;
+            var result = (ObjectResult)authController.PostRegisterUser(userParameter).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }

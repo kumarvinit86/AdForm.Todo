@@ -20,7 +20,7 @@ namespace Adform.Todo.Database.Sql.Test
         }
 
 		[Fact]
-		public void RepositoryShouldReturnEntities()
+		public void Repository_Should_Return_Entities()
 		{
 			//Arrange
 			var databaseConnections = new Fixture().Create<List<DatabaseConnection>>();
@@ -36,7 +36,7 @@ namespace Adform.Todo.Database.Sql.Test
 		}
 
 		[Fact]
-		public void RepositoryShouldReturnEntitiesById()
+		public void Repository_Should_Return_Entities_by_Id()
 		{
 			//Arrange
 			var databseId = 1;

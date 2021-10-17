@@ -23,7 +23,7 @@ namespace Adform.Todo.Database.Sql.Test
 		private readonly List<DatabaseConnectionTest> databaseConnections;
 
 		[Fact]
-		public void ShouldAddObjectIntoDatabase()
+		public void Should_Add_Object_into_Database()
 		{
 			//Arrange
 			var entityMock = databaseConnections.AsQueryable().BuildMockDbSet();
@@ -71,7 +71,7 @@ namespace Adform.Todo.Database.Sql.Test
 		}
 
 		[Fact]
-		public void ShouldUpdateObjectIntoDatabase()
+		public void Should_Update_Object_into_Database()
 		{
 			//Arrange
 			var entity = new Fixture().Create<DatabaseConnectionTest>();
@@ -114,7 +114,7 @@ namespace Adform.Todo.Database.Sql.Test
 		}
 
 		[Fact]
-		public void ShouldRemoveObjectIntoDatabase()
+		public void Should_Remove_Object_from_Database()
 		{
 			//Arrange
 			var entity = new Fixture().Create<DatabaseConnectionTest>();

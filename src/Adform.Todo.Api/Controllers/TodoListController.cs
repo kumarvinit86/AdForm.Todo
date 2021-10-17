@@ -19,12 +19,12 @@ namespace Adform.Todo.Api.Controllers
     {
 
         public TodoListController(ITodoListQueryManager todoListQueryManager, 
-            ITodoListCommandManager todoLsitCommandManager, 
+            ITodoListCommandManager todoListCommandManager, 
             IDbLogger logger,
             IJsonWebTokenHandler jsonWebTokenHandler)
         {
             _todoListQueryManager = todoListQueryManager;
-            _todoListCommandManager = todoLsitCommandManager;
+            _todoListCommandManager = todoListCommandManager;
             _jsonWebTokenHandler = jsonWebTokenHandler;
             _logger = logger;
         }
