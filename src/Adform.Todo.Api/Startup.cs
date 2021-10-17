@@ -49,7 +49,7 @@ namespace Adform.Todo.Service
                .AddMutationType<Mutation>()
                .AddAuthorizeDirectiveType()
                .Create());
-          
+
             // Adding Authentication
             services.AddAuthentication(options =>
             {
@@ -69,9 +69,9 @@ namespace Adform.Todo.Service
                     ValidIssuer = Configuration.GetValue<string>("Issuer"),
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Secret_Key"))),
                     RequireExpirationTime = false
-                };                             
+                };
             });
-            
+
             services.AddControllers(setupaction =>
             {
                 setupaction.ReturnHttpNotAcceptable = true;
@@ -80,13 +80,11 @@ namespace Adform.Todo.Service
                 var jsonOutputFormatter = setupaction.OutputFormatters
                     .OfType<SystemTextJsonOutputFormatter>().FirstOrDefault();
 
-                if (jsonOutputFormatter != null)
+                if (jsonOutputFormatter != null && jsonOutputFormatter.SupportedMediaTypes.Contains("text/json"))
                 {
-                    if (jsonOutputFormatter.SupportedMediaTypes.Contains("text/json"))
-                    {
-                        jsonOutputFormatter.SupportedMediaTypes.Remove("text/json");
-                    }
+                    jsonOutputFormatter.SupportedMediaTypes.Remove("text/json");
                 }
+
             });
             services.AddApiVersioning(setupaction =>
             {
@@ -134,7 +132,7 @@ namespace Adform.Todo.Service
                             new string[] {}
                             }
                         });
-                
+
             });
             services.AddSwaggerExamplesFromAssemblyOf<AppUser>();
             ApplicationWireup.ConfigureServices(services, Configuration);

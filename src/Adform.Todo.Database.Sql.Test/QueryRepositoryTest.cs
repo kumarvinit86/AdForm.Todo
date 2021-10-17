@@ -12,7 +12,7 @@ namespace Adform.Todo.Database.Sql.Test
 {
     public class QueryRepositoryTest
     {
-        DatabaseConnection databaseConnection;
+        private readonly DatabaseConnection databaseConnection;
         public QueryRepositoryTest()
         {
             //Global Arrange
@@ -20,7 +20,7 @@ namespace Adform.Todo.Database.Sql.Test
         }
 
 		[Fact]
-		public async void RepositoryShouldReturnEntities()
+		public void RepositoryShouldReturnEntities()
 		{
 			//Arrange
 			var databaseConnections = new Fixture().Create<List<DatabaseConnection>>();
@@ -29,14 +29,14 @@ namespace Adform.Todo.Database.Sql.Test
 			queryRepository.Entities = entityMock.Object;
 
 			//Act
-			var result = await queryRepository.FillEntities();
+			var result = queryRepository.FillEntities();
 
 			//Assert
-			result.Should().BeOfType<List<DatabaseConnection>>();
+			result.Result.Should().BeOfType<List<DatabaseConnection>>();
 		}
 
 		[Fact]
-		public async void RepositoryShouldReturnEntitiesById()
+		public void RepositoryShouldReturnEntitiesById()
 		{
 			//Arrange
 			var databseId = 1;
@@ -54,10 +54,10 @@ namespace Adform.Todo.Database.Sql.Test
 			queryRepository.Entities = entityMock.Object;
 
 			//Act
-			var result = await queryRepository.FindById(databseId);
+			var result = queryRepository.FindById(databseId);
 
 			//Assert
-			result.Should().BeOfType<DatabaseConnectionTest>();
+			result.Result.Should().BeOfType<DatabaseConnectionTest>();
 		}
 
 

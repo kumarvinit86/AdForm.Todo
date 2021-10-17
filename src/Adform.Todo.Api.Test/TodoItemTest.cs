@@ -52,7 +52,6 @@ namespace Adform.Todo.Api.Test
             var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var pagingData = new Mock<PagingDataRequest>();
             var shouldreturn = new Fixture().Create<Task<Item>>();
             todoItemQueryManager.Setup(x => x.GetbyId(2)).Returns(shouldreturn);
 
@@ -75,7 +74,6 @@ namespace Adform.Todo.Api.Test
             var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var pagingData = new Mock<PagingDataRequest>();
             var shouldreturn = fixture.Create<Task<int>>();
             var addParameter = fixture.Create<Item>();          
             todoItemCommandManager.Setup(x => x.Add(addParameter)).Returns(shouldreturn);
@@ -101,7 +99,6 @@ namespace Adform.Todo.Api.Test
             var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var pagingData = new Mock<PagingDataRequest>();
             var shouldreturn = new Fixture().Create<Task<int>>();
             var addParameter = new Fixture().Create<Item>();
             todoItemCommandManager.Setup(x => x.Update(addParameter)).Returns(shouldreturn);
@@ -124,7 +121,6 @@ namespace Adform.Todo.Api.Test
             var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var pagingData = new Mock<PagingDataRequest>();
             var shouldreturn = new Fixture().Create<Task<int>>();           
             todoItemCommandManager.Setup(x => x.Updatelabel(1,1)).Returns(shouldreturn);
 
@@ -146,7 +142,6 @@ namespace Adform.Todo.Api.Test
             var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var pagingData = new Mock<PagingDataRequest>();
             var shouldreturn = new Fixture().Create<Task<int>>();
             todoItemCommandManager.Setup(x => x.DeletebyId(1)).Returns(shouldreturn);
 

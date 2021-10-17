@@ -19,11 +19,11 @@ namespace Adform.Todo.Database.Sql.Test
 			databaseConnection = new Fixture().Create<DatabaseConnectionTest>();
 			databaseConnections = new Fixture().Create<List<DatabaseConnectionTest>>();
 		}
-		DatabaseConnectionTest databaseConnection;
-		List<DatabaseConnectionTest> databaseConnections;
+		private readonly DatabaseConnectionTest databaseConnection;
+		private readonly List<DatabaseConnectionTest> databaseConnections;
 
 		[Fact]
-		public async void ShouldAddObjectIntoDatabase()
+		public void ShouldAddObjectIntoDatabase()
 		{
 			//Arrange
 			var entityMock = databaseConnections.AsQueryable().BuildMockDbSet();
@@ -35,10 +35,10 @@ namespace Adform.Todo.Database.Sql.Test
 			commandRepository.TodoDatabase = dbContext.Object;
 
 			//Act
-			var result = await commandRepository.Add(databaseConnection);
+			var result = commandRepository.Add(databaseConnection);
 
 			//Assert
-			result.Should().BeGreaterThan(0);
+			result.Result.Should().BeGreaterThan(0);
 		}
 
 		/// <summary>
@@ -71,17 +71,17 @@ namespace Adform.Todo.Database.Sql.Test
 		}
 
 		[Fact]
-		public async void ShouldUpdateObjectIntoDatabase()
+		public void ShouldUpdateObjectIntoDatabase()
 		{
 			//Arrange
 			var entity = new Fixture().Create<DatabaseConnectionTest>();
 			var commandRepository = ArrangeRepositoryForUpdate();
 
 			//Act
-			var result = await commandRepository.Update(entity);
+			var result = commandRepository.Update(entity);
 
 			//Assert
-			result.Should().BeGreaterThan(0);
+			result.Result.Should().BeGreaterThan(0);
 		}
 
 		/// <summary>
@@ -114,17 +114,17 @@ namespace Adform.Todo.Database.Sql.Test
 		}
 
 		[Fact]
-		public async void ShouldRemoveObjectIntoDatabase()
+		public void ShouldRemoveObjectIntoDatabase()
 		{
 			//Arrange
 			var entity = new Fixture().Create<DatabaseConnectionTest>();
 			var commandRepository = ArrangeRepositoryForRemove();
 
 			//Act
-			var result = await commandRepository.Remove(entity);
+			var result = commandRepository.Remove(entity);
 
 			//Assert
-			result.Should().BeGreaterThan(0);
+			result.Result.Should().BeGreaterThan(0);
 		}
 	}
 }

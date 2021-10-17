@@ -29,10 +29,6 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConnectionString);
-            //if (!Database.CanConnect())
-            //{
-            //    Database.Migrate();
-            //}
         }
 
         /// <summary>

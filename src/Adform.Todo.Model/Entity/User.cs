@@ -14,13 +14,7 @@ namespace Adform.Todo.Model.Entity
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-
-        /// <summary>
-        /// Requires password to be encrypted to Base64 for registering new user
-        /// </summary>
         public string Password { get; set; }
-        //public UserType? UserType { get; set; }
-
         public virtual ToDoItem? TodoItem { get; set; }
     }
 }

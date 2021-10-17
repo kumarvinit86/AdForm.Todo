@@ -8,11 +8,11 @@ namespace Adform.Todo.Api.GraphQl.Model
     /// </summary>
     class ToDoItemType : ObjectType<Item>
     {
-        protected override void Configure(IObjectTypeDescriptor<Item> item)
+        protected override void Configure(IObjectTypeDescriptor<Item> descriptor)
         {
-            item.Field(a => a.Id).Type<IdType>();
-            item.Field(a => a.Name).Type<StringType>();
-            item.Field(a => a.LabelName).Type<StringType>();
+            descriptor.Field(a => a.Id).Type<IdType>();
+            descriptor.Field(a => a.Name).Type<StringType>();
+            descriptor.Field(a => a.LabelName).Type<StringType>();
 
         }
     }

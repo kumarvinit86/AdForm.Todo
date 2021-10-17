@@ -21,7 +21,7 @@ namespace Adform.Todo.Api.SwaggerSupport
                 In = ParameterLocation.Header,
                 Style = ParameterStyle.DeepObject,
                 Required = false
-            }); ;
+            });
         }
     }
 }

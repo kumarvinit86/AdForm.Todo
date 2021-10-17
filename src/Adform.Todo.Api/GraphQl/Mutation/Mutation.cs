@@ -49,24 +49,24 @@ namespace Adform.Todo.Api.GraphQl.Mutation
         /// <summary>
         /// Mutation to assign label to item
         /// </summary>
-        /// <param name="labelId"></param>
         /// <param name="itemId"></param>
+        /// <param name="labelId"></param>
         /// <returns></returns>
-        //public async Task<int> AssignLabelToItem(int labelId, int[] itemId)
-        //{
-        //    return await _labelDbService.AssignLabelToItem(labelId, itemId);
-        //}
+        public async Task<int> UpdateLabeltoItem(int itemId, int labelId)
+        {
+            return await _todoItemCommandManager.Updatelabel(itemId,labelId);
+        }
 
         /// <summary>
         /// Mutation to assign label to list
         /// </summary>
+        /// <param name="itemListId"></param>
         /// <param name="labelId"></param>
-        /// <param name="itemId"></param>
         /// <returns></returns>
-        //public async Task<int> AssignLabelToList(int labelId, int[] itemId)
-        //{
-        //    return await _labelDbService.AssignLabelToList(labelId, itemId);
-        //}
+        public async Task<int> UpdateLabeltoItemList(int itemListId, int labelId)
+        {
+            return await _todoListCommandManager.Updatelabel(itemListId, labelId);
+        }
 
         /// <summary>
         /// Mutation to add todoitem

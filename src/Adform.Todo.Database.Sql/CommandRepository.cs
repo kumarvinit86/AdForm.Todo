@@ -1,6 +1,7 @@
 ﻿using Adform.Todo.Database.Sql.DataBaseContext;
 using Adform.Todo.Model.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,8 +11,7 @@ namespace Adform.Todo.Database.Sql
     /// Generic Repository implementation for Commands.
     /// </summary>
     /// <typeparam name="TEntity">Tamplate parameter to initialize the repository.</typeparam>
-    public class CommandRepository<TEntity> : ICommandRepository<TEntity>
-        where TEntity : class
+    public class CommandRepository<TEntity> : ICommandRepository<TEntity> where TEntity : class
     {
         /// <summary>
         /// Constructor to initialize Entity by TEntity.
@@ -21,12 +21,11 @@ namespace Adform.Todo.Database.Sql
         public CommandRepository(DatabaseConnection databaseConnection)
         {
             TodoDatabase = new TodoDbContext(databaseConnection);
-            _entities = TodoDatabase.Set<TEntity>();
+            Entities = TodoDatabase.Set<TEntity>();
         }
 
         public DbContext TodoDatabase { get; set; }
-        DbSet<TEntity> _entities;
-        public DbSet<TEntity> Entities { get => _entities; set => _entities = value; }
+        public DbSet<TEntity> Entities { get; set; }
 
         /// <summary>
         /// Generic method to add entity.

@@ -61,12 +61,12 @@ namespace Adform.Todo.Manager.Default
         /// <summary>
         /// to update the label of list
         /// </summary>
-        /// <param name="listId"></param>
+        /// <param name="itemListId"></param>
         /// <param name="labelId"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Updatelabel(int listId, int labelId)
+        public async Task<int> Updatelabel(int itemListId, int labelId)
         {
-            var list = await _todoListQuery.GetbyId(listId);
+            var list = await _todoListQuery.GetbyId(itemListId);
             if (list == null)
             {
                 return 0;

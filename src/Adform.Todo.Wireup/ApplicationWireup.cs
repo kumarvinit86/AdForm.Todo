@@ -21,7 +21,8 @@ namespace Adform.Todo.Wireup
 {
     public static class ApplicationWireup
     {
-        public static Container Container = new Container();
+
+        public static readonly Container Container = new Container();
         private static IServiceCollection _services;
 
         public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)

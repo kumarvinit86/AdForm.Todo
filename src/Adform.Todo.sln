@@ -44,6 +44,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F8D47A6-DDE3-4737-B078-F6B2825CB41A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		CodingRules.ruleset = CodingRules.ruleset
+		SonarLint.xml = SonarLint.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adform.Todo.Manager.Test", "Adform.Todo.Manager.Test\Adform.Todo.Manager.Test.csproj", "{7B663BEF-520D-4C0E-8DF4-CF2CAEECE38A}"

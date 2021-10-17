@@ -18,20 +18,17 @@ namespace Adform.Todo.Api.GraphQl.Query
         private readonly ILabelQueryManager _labelQueryManager;
         private readonly ITodoListQueryManager _todoListQueryManager;
         private readonly ITodoItemQueryManager _todoItemQueryManager;
-        private readonly IUserQueryManager _userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Query"/> class.
         /// </summary>
         public Query(ILabelQueryManager labelQueryManager,
             ITodoListQueryManager todoListQueryManager,
-            ITodoItemQueryManager todoItemQueryManager,
-            IUserQueryManager userManager)
+            ITodoItemQueryManager todoItemQueryManager)
         {
             _labelQueryManager = labelQueryManager;
             _todoListQueryManager = todoListQueryManager;
             _todoItemQueryManager = todoItemQueryManager;
-            _userManager = userManager;
         }
 
         /// <summary>

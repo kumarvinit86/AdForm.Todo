@@ -5,7 +5,6 @@ using Adform.Todo.Wireup.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using SeriLogger.DbLogger;
 using System;
 using System.Collections.Generic;
@@ -33,8 +32,7 @@ namespace Adform.Todo.Api.Controllers
         private readonly ITodoListQueryManager _todoListQueryManager;
         private readonly ITodoListCommandManager _todoListCommandManager;
         private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
-
-        IDbLogger _logger;
+        private readonly IDbLogger _logger;
 
         // GET: todo/<TodoListController>
         [HttpGet]
@@ -50,7 +48,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
                 }
-                var tupleResult = await _todoListQueryManager.Get(pagingDataRequest, userId ?? default(int));
+                var tupleResult = await _todoListQueryManager.Get(pagingDataRequest, userId ?? default);
                 List<ItemList> result = tupleResult.Item1;
                 if (result.Count > 0)
                 {
@@ -109,7 +107,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
                 }
-                itemList.UserId = userId ?? default(int);
+                itemList.UserId = userId ?? default;
                 var result = await _todoListCommandManager.Add(itemList);
                 if (result > 0)
                 {

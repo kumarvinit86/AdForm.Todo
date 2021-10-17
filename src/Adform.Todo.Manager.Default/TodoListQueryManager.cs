@@ -35,8 +35,8 @@ namespace Adform.Todo.Manager.Default
             var data = _mapper.Map<List<ItemList>>(await _todoListQuery.Get(userId));
 
             int count = data.Count;
-            int CurrentPage = pagingData.pageNumber;
-            int PageSize = pagingData.pageSize;
+            int CurrentPage = pagingData.PageNumber;
+            int PageSize = pagingData.PageSize;
             int TotalCount = count;
             int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
             var items = data.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();

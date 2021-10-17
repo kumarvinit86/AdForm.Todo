@@ -33,7 +33,7 @@ namespace Adform.Todo.Api.Controllers
         private readonly ITodoItemQueryManager _todoItemQueryManager;
         private readonly ITodoItemCommandManager _todoItemCommandManager;
         private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
-        IDbLogger _logger;
+        private readonly IDbLogger _logger;
 
         // GET: todo/<TodoItemController>
         [HttpGet]
@@ -49,7 +49,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
                 }
-                var tupleResult = await _todoItemQueryManager.Get(pagingDataRequest,userId ?? default(int));
+                var tupleResult = await _todoItemQueryManager.Get(pagingDataRequest,userId ?? default);
                 var result= tupleResult.Item1;
                 if (result.Count > 0)
                 {
@@ -108,7 +108,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
                 }
-                item.UserId = userId ?? default(int);
+                item.UserId = userId ?? default;
                 var result = await _todoItemCommandManager.Add(item);
                 if (result >0)
                 {

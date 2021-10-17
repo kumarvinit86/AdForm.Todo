@@ -61,7 +61,6 @@ namespace Adform.Todo.Api.Test
             var fixture = new Fixture();
             var userCommandManager = new Mock<IUserCommandManager>();
             var logger = new Mock<IDbLogger>();
-            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var userParameter = fixture.Create<AppUser>();
             var shouldReturn = Task.Run(() => { return 1; });
             userCommandManager.Setup(x => x.Add(userParameter)).Returns(shouldReturn);

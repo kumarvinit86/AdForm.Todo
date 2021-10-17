@@ -19,7 +19,7 @@ namespace Adform.Todo.Manager.Default
             _mapper = mapper;
         }
         private readonly ITodoItemCommand _todoItemCommand;
-        ITodoItemQuery _todoItemQuery;
+        private readonly ITodoItemQuery _todoItemQuery;
         private readonly IMapper _mapper;
         /// <summary>
         /// To add Item into database

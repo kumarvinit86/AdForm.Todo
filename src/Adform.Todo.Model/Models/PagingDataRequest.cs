@@ -3,17 +3,17 @@
     public class PagingDataRequest
     {
         const int MAXPAGESIZE = 20;
-        public int pageNumber { get; set; } = 1;
+        public int PageNumber { get; set; } = 1;
 
-        private int _pageSize { get; set; } = 1;
+        private int pageSize { get; set; } = 1;
 
-        public int pageSize
+        public int PageSize
         {
 
-            get { return _pageSize; }
+            get { return pageSize; }
             set
             {
-                _pageSize = (value > MAXPAGESIZE) ? MAXPAGESIZE : value;
+                pageSize = (value > MAXPAGESIZE) ? MAXPAGESIZE : value;
             }
         }
     }

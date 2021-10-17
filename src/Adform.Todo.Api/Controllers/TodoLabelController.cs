@@ -25,7 +25,7 @@ namespace Adform.Todo.Api.Controllers
 
         private readonly ILabelQueryManager _labelQueryManager;
         private readonly ILabelCommandManager _labelCommandManager;
-        IDbLogger _logger;
+        private readonly IDbLogger _logger;
 
         // GET: todo/<TodolabelController>
         [HttpGet]

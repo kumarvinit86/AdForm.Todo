@@ -16,7 +16,7 @@ namespace Adform.Todo.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IDbLogger _logger;
-        IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
         public RequestResponseLoggingMiddleware(RequestDelegate next,
                                                 IConfiguration configuration)

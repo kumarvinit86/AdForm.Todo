@@ -23,13 +23,11 @@ namespace Adform.Todo.Database.Sql
         public QueryRepository(DatabaseConnection databaseConnection)
         {
             TodoDatabase = new TodoDbContext(databaseConnection);
-            _entities = TodoDatabase.Set<TEntity>();
+            Entities = TodoDatabase.Set<TEntity>();
         }
 
         public DbContext TodoDatabase { get; set; }
-        DbSet<TEntity> _entities;
-
-        public DbSet<TEntity> Entities { get => _entities; set => _entities = value; }
+        public DbSet<TEntity> Entities { get; set; }
         /// <summary>
         /// Generic method to fetch entity by primary key value.
         /// </summary>
