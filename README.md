@@ -17,7 +17,7 @@ Assignment for Adform Client to create Todo Service.
 * MockQueryable.Moq
 * FluentAssertions
 * SeriLog
-
+* Sonarlint `dynamic code analyzer`
 
 ## How to configure the Application
 * Clone the application 
