@@ -1,4 +1,5 @@
-﻿using Adform.Todo.Model.Entity;
+﻿using Adform.Todo.Database.Sql.Migrations;
+using Adform.Todo.Model.Entity;
 using Adform.Todo.Model.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,10 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConnectionString);
+            //if (!Database.CanConnect())
+            //{
+            //    Database.Migrate();
+            //}
         }
 
         /// <summary>
@@ -37,17 +42,23 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ToDoItem>()
-                    .ToTable("ToDoItems").HasOne(t=>t.Author).WithOne(u=>u.TodoItem);
+                    .ToTable("ToDoItems").HasOne(t => t.Author).WithOne(u => u.TodoItem);
             modelBuilder.Entity<ToDoItem>()
-                    .ToTable("ToDoItems").HasOne(t => t.ToDoItemList).WithMany(l=>l.TodoItems);
+                    .ToTable("ToDoItems").HasOne(t => t.ToDoItemList).WithMany(l => l.TodoItems);
             modelBuilder.Entity<ToDoItem>()
-                    .ToTable("ToDoItems").HasOne(t => t.Label).WithOne(l=>l.TodoItem);
+                    .ToTable("ToDoItems").HasOne(t => t.Label).WithOne(l => l.TodoItem);
             modelBuilder.Entity<User>()
                    .ToTable("Users");
             modelBuilder.Entity<TodoLabel>()
                   .ToTable("Labels");
             modelBuilder.Entity<ToDoList>()
                   .ToTable("ToDoLists");
+
+            var seeds = new SeedTodoDatabase(modelBuilder);
+            seeds.SeedUser();
+            seeds.SeedLabel();
+            seeds.SeedTodoList();
+            seeds.SeedTodoItem();
 
         }
     }
