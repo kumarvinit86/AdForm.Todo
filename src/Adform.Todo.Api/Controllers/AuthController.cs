@@ -33,7 +33,7 @@ namespace Adform.Todo.Api.Controllers
 
         // POST todo/<LoginController>
         [HttpPost]
-        [SwaggerRequestExample(typeof(AppUser), typeof(AppUser))]
+        //[SwaggerRequestExample(typeof(AppUser), typeof(AppUser))]
         [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] AppUser appUser)

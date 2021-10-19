@@ -34,9 +34,9 @@ namespace Adform.Todo.Api.SwaggerSupport
 		{
 			var info = new OpenApiInfo()
 			{
-				Title = "Adform.Service",
+				Title = "Adform.Todo.Api",
 				Version = description.ApiVersion.ToString(),
-				Description = "Through this API, QualityAuditSuite details can be access.",
+				Description = "Through this API, Adform.Todo.Api details can be access.",
 				Contact = new OpenApiContact { Name = "Adform.Service", Url = new Uri("https://swagger.io") }
 			};
 

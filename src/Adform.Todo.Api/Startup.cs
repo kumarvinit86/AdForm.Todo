@@ -72,22 +72,7 @@ namespace Adform.Todo.Service
                 };                             
             });
             
-            services.AddControllers(setupaction =>
-            {
-                setupaction.ReturnHttpNotAcceptable = true;
-                setupaction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
 
-                var jsonOutputFormatter = setupaction.OutputFormatters
-                    .OfType<SystemTextJsonOutputFormatter>().FirstOrDefault();
-
-                if (jsonOutputFormatter != null)
-                {
-                    if (jsonOutputFormatter.SupportedMediaTypes.Contains("text/json"))
-                    {
-                        jsonOutputFormatter.SupportedMediaTypes.Remove("text/json");
-                    }
-                }
-            });
             services.AddApiVersioning(setupaction =>
             {
                 setupaction.AssumeDefaultVersionWhenUnspecified = true;
@@ -138,8 +123,11 @@ namespace Adform.Todo.Service
             });
             services.AddSwaggerExamplesFromAssemblyOf<AppUser>();
             ApplicationWireup.ConfigureServices(services, Configuration);
-
-            services.AddControllers();
+            services.AddControllersWithViews(options =>
+            {
+                options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+            });
+            services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -180,6 +168,22 @@ namespace Adform.Todo.Service
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
+        {
+            var builder = new ServiceCollection()
+                .AddLogging()
+                .AddMvc()
+                .AddNewtonsoftJson()
+                .Services.BuildServiceProvider();
+
+            return builder
+                .GetRequiredService<IOptions<MvcOptions>>()
+                .Value
+                .InputFormatters
+                .OfType<NewtonsoftJsonPatchInputFormatter>()
+                .First();
         }
     }
 }
