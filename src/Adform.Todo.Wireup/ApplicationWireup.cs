@@ -15,7 +15,7 @@ using Adform.Todo.DomainService.Default;
 using Adform.Todo.DomainService;
 using Adform.Todo.Manager;
 using Adform.Todo.Manager.Default;
-using Adform.Todo.Wireup.Authentication;
+using Adform.Todo.Essentials.Authentication;
 
 namespace Adform.Todo.Wireup
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Adform.Todo.Wireup.Authentication
+namespace Adform.Todo.Essentials.Authentication
 {
     public interface IJsonWebTokenHandler
     {

@@ -1,7 +1,7 @@
 ﻿using Adform.Todo.Dto;
+using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
 using Adform.Todo.Model.Models;
-using Adform.Todo.Wireup.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SeriLogger.DbLogger;

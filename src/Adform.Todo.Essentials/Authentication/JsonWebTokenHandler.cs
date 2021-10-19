@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text;
 
 
-namespace Adform.Todo.Wireup.Authentication
+namespace Adform.Todo.Essentials.Authentication
 {
     /// <summary>
     /// To manage the jwt token related actions
