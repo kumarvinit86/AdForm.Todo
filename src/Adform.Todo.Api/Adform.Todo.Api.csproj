@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>e8920ea8-ea4e-4064-a4f9-2203c1786363</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoFixture" Version="4.17.0" />
@@ -19,6 +21,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0" />
 		<PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.2" />
 		<PackageReference Include="HotChocolate.AspNetCore" Version="10.5.2" />
 		<PackageReference Include="HotChocolate.AspNetCore.GraphiQL" Version="10.5.2" />
