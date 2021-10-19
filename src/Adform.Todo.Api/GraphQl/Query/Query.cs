@@ -64,7 +64,7 @@ namespace Adform.Todo.Api.GraphQl.Query
         /// Query to get all lists
         /// </summary>
         /// <returns></returns>
-        public async Task<Tuple<List<ItemList>, PagingDataResponse>> GetToDoLists(PagingDataRequest pagingData, int userId) 
+        public async Task<ItemListPaged> GetToDoLists(PagingDataRequest pagingData, int userId) 
         { 
             return await _todoListQueryManager.Get(pagingData,userId); 
         }
@@ -73,7 +73,7 @@ namespace Adform.Todo.Api.GraphQl.Query
         /// Query to get all todoitems
         /// </summary>
         /// <returns></returns>
-        public async Task<Tuple<List<Item>, PagingDataResponse>> GetToDoItems(PagingDataRequest pagingData, int userId) 
+        public async Task<ItemPaged> GetToDoItems(PagingDataRequest pagingData, int userId) 
         { 
             return await _todoItemQueryManager.Get(pagingData,userId); 
         }

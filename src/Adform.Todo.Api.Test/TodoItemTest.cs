@@ -27,7 +27,7 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var pagingData = new Mock<PagingDataRequest>();
-            var shouldreturn = new Fixture().Create<Task<Tuple<List<Item>, PagingDataResponse>>>();
+            var shouldreturn = new Fixture().Create<Task<ItemPaged>>();
 
             todoItemQueryManager.Setup(x=>x.Get(pagingData.Object,2)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(2);

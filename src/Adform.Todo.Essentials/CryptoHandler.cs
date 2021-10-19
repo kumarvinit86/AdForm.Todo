@@ -56,11 +56,12 @@ namespace Adform.Todo.Essentials
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArray = hashmd5.ComputeHash(Encoding.UTF8.GetBytes(key));
             hashmd5.Clear();
-            var tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider();
-            tripleDESCryptoServiceProvider.Key = keyArray;
-
-            tripleDESCryptoServiceProvider.Mode = CipherMode.ECB;
-            tripleDESCryptoServiceProvider.Padding = PaddingMode.PKCS7;
+            var tripleDESCryptoServiceProvider = new TripleDESCryptoServiceProvider
+            {
+                Key = keyArray,
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.PKCS7
+            };
 
             ICryptoTransform cTransform = tripleDESCryptoServiceProvider.CreateDecryptor();
             byte[] resultArray = cTransform.TransformFinalBlock(

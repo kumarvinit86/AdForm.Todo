@@ -8,7 +8,7 @@ namespace Adform.Todo.Manager
 {
     public interface ITodoListQueryManager
     {
-        Task<Tuple<List<ItemList>, PagingDataResponse>> Get(PagingDataRequest pagingData, int userId);
+        Task<ItemListPaged> Get(PagingDataRequest pagingData, int userId);
         Task<ItemList> GetbyId(int Id);
     }
 }

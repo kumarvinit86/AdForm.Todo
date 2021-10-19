@@ -16,12 +16,10 @@ namespace Adform.Todo.Essentials.Authentication
     {
         public JsonWebTokenHandler(IConfiguration configuration)
         {
-            SECRET_KEY = configuration.GetValue<string>("Secret_Key");
             _configuration = configuration;
-            SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
+            SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Secret_Key")));
         }
         private readonly IConfiguration _configuration;
-        private readonly string SECRET_KEY;
         const int TIME_OUT = 3;
         public readonly SymmetricSecurityKey SIGNING_KEY;
 
@@ -32,10 +30,6 @@ namespace Adform.Todo.Essentials.Authentication
         /// <returns></returns>
         public string GenerateJSONWebToken(string UserId)
         {
-            var credentials = new SigningCredentials
-                              (SIGNING_KEY, SecurityAlgorithms.HmacSha256Signature);
-
-            var header = new JwtHeader(credentials);
             string username = UserId;
             var handler = new JwtSecurityTokenHandler();
             var authClaims = new List<Claim>
@@ -51,17 +45,12 @@ namespace Adform.Todo.Essentials.Authentication
                                     claims: authClaims,
                                     signingCredentials: new SigningCredentials(SIGNING_KEY, SecurityAlgorithms.HmacSha256)
                                     );
-
-            // Token to String so you can use it in your client
             var tokenString = handler.WriteToken(jwt);
             return tokenString;
         }
 
         public int? GetUserIdfromToken(string token)
         {
-
-            string secret = SECRET_KEY;
-            var key = Encoding.ASCII.GetBytes(secret);
             var handler = new JwtSecurityTokenHandler();
             var jwToken = handler.ReadJwtToken(token.Split(' ')[1]);
             int user;

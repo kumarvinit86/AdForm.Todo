@@ -1,4 +1,5 @@
-﻿using Adform.Todo.Dto;
+﻿using Adform.Todo.Api.SwaggerConfig;
+using Adform.Todo.Dto;
 using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
 using Adform.Todo.Model.Models;
@@ -33,7 +34,7 @@ namespace Adform.Todo.Api.Controllers
 
         // POST todo/<LoginController>
         [HttpPost]
-        //[SwaggerRequestExample(typeof(AppUser), typeof(AppUser))]
+        [SwaggerRequestExample(typeof(AppUser), typeof(AppUserExample))]
         [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] AppUser appUser)

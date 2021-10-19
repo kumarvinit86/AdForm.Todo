@@ -2,6 +2,7 @@ using Adform.Todo.Api.GraphQl.Model;
 using Adform.Todo.Api.GraphQl.Mutation;
 using Adform.Todo.Api.GraphQl.Query;
 using Adform.Todo.Api.Middleware;
+using Adform.Todo.Api.SwaggerConfig;
 using Adform.Todo.Api.SwaggerSupport;
 using Adform.Todo.Dto;
 using Adform.Todo.Wireup;
@@ -121,7 +122,7 @@ namespace Adform.Todo.Service
                         });
                 
             });
-            services.AddSwaggerExamplesFromAssemblyOf<AppUser>();
+            services.AddSwaggerExamplesFromAssemblyOf<AppUserExample>();
             ApplicationWireup.ConfigureServices(services, Configuration);
             services.AddControllersWithViews(options =>
             {

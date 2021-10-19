@@ -37,7 +37,7 @@ namespace Adform.Todo.Api.Controllers
         // GET: todo/<TodoListController>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Tuple<List<ItemList>, PagingDataResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ItemListPaged), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Get([FromQuery] PagingDataRequest pagingDataRequest)
         {
@@ -49,7 +49,7 @@ namespace Adform.Todo.Api.Controllers
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
                 }
                 var tupleResult = await _todoListQueryManager.Get(pagingDataRequest, userId ?? default);
-                List<ItemList> result = tupleResult.Item1;
+                List<ItemList> result = tupleResult.item;
                 if (result.Count > 0)
                 {
                     return Ok(tupleResult);

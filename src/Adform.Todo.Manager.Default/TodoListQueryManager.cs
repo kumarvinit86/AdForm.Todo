@@ -29,7 +29,7 @@ namespace Adform.Todo.Manager.Default
         /// <param name="pagingData">for current/default page data</param>
         /// <param name="userId"></param>
         /// <returns>Tuple of list of todolist and the pagination details</returns>
-        public async Task<Tuple<List<ItemList>, PagingDataResponse>> Get(PagingDataRequest pagingData, int userId)
+        public async Task<ItemListPaged> Get(PagingDataRequest pagingData, int userId)
         {
 
             var data = _mapper.Map<List<ItemList>>(await _todoListQuery.Get(userId));
@@ -51,7 +51,7 @@ namespace Adform.Todo.Manager.Default
                 PreviousPage = previousPage,
                 NextPage = nextPage
             };
-            return new Tuple<List<ItemList>, PagingDataResponse>(items, pageMetadata);
+            return new ItemListPaged { item = items, pagingData = pageMetadata };
         }
 
         /// <summary>
