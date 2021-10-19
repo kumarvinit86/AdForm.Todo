@@ -15,12 +15,12 @@ namespace Adform.Todo.Database.Sql.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Name", "Password" },
-                values: new object[] { 1, "default", "default" });
+                values: new object[] { 1, "default", "MZi3g4TK09g=" });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Name", "Password" },
-                values: new object[] { 2, "admin", "admin" });
+                values: new object[] { 2, "admin", "AKDS+52ehoM=" });
 
             migrationBuilder.InsertData(
                 table: "ToDoLists",

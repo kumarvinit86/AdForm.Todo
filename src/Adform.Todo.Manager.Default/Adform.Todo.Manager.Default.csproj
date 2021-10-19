@@ -9,6 +9,7 @@
 	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Adform.Todo.Dto\Adform.Todo.Dto.csproj" />
+    <ProjectReference Include="..\Adform.Todo.Essentials\Adform.Todo.Essentials.csproj" />
     <ProjectReference Include="..\Adform.Todo.Manager\Adform.Todo.Manager.csproj" />
   </ItemGroup>
 
