@@ -23,7 +23,7 @@ Assignment for Adform Client to create Todo Service.
 * Clone the application 
 * Restore the packages of solution
 * Project inclued Database migration, to create database please execute below command in Package Manager Console
-    ### `Update-Migration`
+    ### `Update-Database`
 
 * Build the solution 
 * Start application by F5
