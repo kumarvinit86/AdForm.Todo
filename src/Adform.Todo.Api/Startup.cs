@@ -3,7 +3,6 @@ using Adform.Todo.Api.GraphQl.Mutation;
 using Adform.Todo.Api.GraphQl.Query;
 using Adform.Todo.Api.Middleware;
 using Adform.Todo.Api.SwaggerSupport;
-using Adform.Todo.Dto;
 using Adform.Todo.Wireup;
 using HotChocolate;
 using HotChocolate.AspNetCore;
@@ -19,7 +18,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
 using System.Text;
@@ -109,8 +107,6 @@ namespace Adform.Todo.Service
                     Title = "ASP.NET 5 Web API",
                     Description = "Authentication and Authorization in ASP.NET 5 with JWT and Swagger"
                 });
-                swagger.ExampleFilters();
-                swagger.OperationFilter<AddResponseHeadersFilter>();
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -134,9 +130,7 @@ namespace Adform.Todo.Service
                             new string[] {}
                             }
                         });
-                
             });
-            services.AddSwaggerExamplesFromAssemblyOf<AppUser>();
             ApplicationWireup.ConfigureServices(services, Configuration);
 
             services.AddControllers();
@@ -154,7 +148,6 @@ namespace Adform.Todo.Service
 
             app.UseRouting();
             app.UseSwagger();
-            app.UseSwagger(c => c.SerializeAsV2 = true);
             app.UseSwaggerUI(setupAction =>
             {
                 foreach (var description in provider.ApiVersionDescriptions)
@@ -169,6 +162,7 @@ namespace Adform.Todo.Service
                 setupAction.EnableDeepLinking();
                 setupAction.DisplayOperationId();
             });
+
 
             app.UseGraphQL();
             app.UsePlayground();

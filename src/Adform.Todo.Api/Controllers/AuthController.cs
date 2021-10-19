@@ -1,13 +1,13 @@
 ﻿using Adform.Todo.Dto;
 using Adform.Todo.Manager;
 using Adform.Todo.Model.Models;
-using Adform.Todo.Wireup.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SeriLogger.DbLogger;
-using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Threading.Tasks;
+using Adform.Todo.Wireup.Authentication;
 
 namespace Adform.Todo.Api.Controllers
 {
@@ -33,7 +33,6 @@ namespace Adform.Todo.Api.Controllers
 
         // POST todo/<LoginController>
         [HttpPost]
-        [SwaggerRequestExample(typeof(AppUser), typeof(AppUser))]
         [ProducesResponseType(typeof(AutherizationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public IActionResult Post([FromBody] AppUser appUser)
