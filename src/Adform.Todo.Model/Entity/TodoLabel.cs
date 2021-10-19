@@ -8,5 +8,6 @@ namespace Adform.Todo.Model.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual ToDoItem? TodoItem { get; set; }
+        public virtual ToDoList? TodoList { get; set; }
     }
 }

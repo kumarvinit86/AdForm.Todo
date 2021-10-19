@@ -1,5 +1,4 @@
-﻿using Adform.Todo.Database.Sql.Migrations;
-using Adform.Todo.Model.Entity;
+﻿using Adform.Todo.Model.Entity;
 using Adform.Todo.Model.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         /// <summary>
         /// Default Constructor of class
         /// </summary>
-        /// <param name="databaseConnection">Database connection instanse to create the connection with database.</param>
+        /// <param name="databaseConnection">Database connection instance to create the connection with database.</param>
         public TodoDbContext(DatabaseConnection databaseConnection)
             : base()
         {
@@ -23,7 +22,7 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
 
         public string ConnectionString { get; set; }
         /// <summary>
-        /// Overrided base OnConfigure method.
+        /// Override base OnConfigure method.
         /// </summary>
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,13 +31,16 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         }
 
         /// <summary>
-        /// Overrided base OnModelCreating to define the entity relationship and relation between entity to database.
+        /// Override base OnModelCreating to define the entity relationship and relation between entity to database.
         /// </summary>
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ToDoItem>()
                     .ToTable("ToDoItems").HasOne(t => t.Author).WithOne(u => u.TodoItem);
+            modelBuilder.Entity<ToDoItem>().HasIndex(x => x.UserId).IsUnique(false);
+            modelBuilder.Entity<ToDoItem>().HasIndex(x => x.LabelId).IsUnique(false);
+            modelBuilder.Entity<ToDoItem>().HasIndex(x => x.ToDoListId).IsUnique(false);
             modelBuilder.Entity<ToDoItem>()
                     .ToTable("ToDoItems").HasOne(t => t.ToDoItemList).WithMany(l => l.TodoItems);
             modelBuilder.Entity<ToDoItem>()
@@ -48,7 +50,11 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
             modelBuilder.Entity<TodoLabel>()
                   .ToTable("Labels");
             modelBuilder.Entity<ToDoList>()
-                  .ToTable("ToDoLists");
+                  .ToTable("ToDoLists").HasOne(t => t.Author).WithOne(u => u.TodoList);
+            modelBuilder.Entity<ToDoList>()
+                .ToTable("ToDoLists").HasOne(t => t.Label).WithOne(u => u.TodoList);
+            modelBuilder.Entity<ToDoList>().HasIndex(x => x.UserId).IsUnique(false);
+            modelBuilder.Entity<ToDoList>().HasIndex(x => x.LabelId).IsUnique(false);
 
             var seeds = new SeedTodoDatabase(modelBuilder);
             seeds.SeedUser();

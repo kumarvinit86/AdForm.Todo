@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Adform.Todo.Database.Sql.Migrations
+namespace Adform.Todo.Database.Sql.DataBaseContext
 {
     public class SeedTodoDatabase
     {
@@ -20,14 +20,14 @@ namespace Adform.Todo.Database.Sql.Migrations
                    {
                        Id = 1,
                        Name = "default",
-                       Password = "default"
+                       Password = "AKDS+52ehoM="
                    });
             _modelBuilder.Entity<User>()
                     .ToTable("Users").HasData(new User()
                     {
                         Id = 2,
                         Name = "admin",
-                        Password = "admin"
+                        Password = "AKDS+52ehoM="
                     });
         }
 

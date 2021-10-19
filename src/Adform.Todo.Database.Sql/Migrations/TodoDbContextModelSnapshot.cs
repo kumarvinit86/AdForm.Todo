@@ -49,15 +49,11 @@ namespace Adform.Todo.Database.Sql.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LabelId")
-                        .IsUnique()
-                        .HasFilter("[LabelId] IS NOT NULL");
+                    b.HasIndex("LabelId");
 
                     b.HasIndex("ToDoListId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ToDoItems");
 
@@ -109,10 +105,10 @@ namespace Adform.Todo.Database.Sql.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2021, 10, 17, 10, 59, 21, 351, DateTimeKind.Local).AddTicks(5227),
+                            CreatedDate = new DateTime(2021, 10, 19, 18, 1, 17, 721, DateTimeKind.Local).AddTicks(4718),
                             LabelId = 1,
                             Name = "None",
-                            UpdatedDate = new DateTime(2021, 10, 17, 10, 59, 21, 352, DateTimeKind.Local).AddTicks(2267),
+                            UpdatedDate = new DateTime(2021, 10, 19, 18, 1, 17, 722, DateTimeKind.Local).AddTicks(2102),
                             UserId = 1
                         });
                 });
@@ -195,12 +191,12 @@ namespace Adform.Todo.Database.Sql.Migrations
             modelBuilder.Entity("Adform.Todo.Model.Entity.ToDoList", b =>
                 {
                     b.HasOne("Adform.Todo.Model.Entity.TodoLabel", "Label")
-                        .WithMany()
-                        .HasForeignKey("LabelId");
+                        .WithOne("TodoList")
+                        .HasForeignKey("Adform.Todo.Model.Entity.ToDoList", "LabelId");
 
                     b.HasOne("Adform.Todo.Model.Entity.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                        .WithOne("TodoList")
+                        .HasForeignKey("Adform.Todo.Model.Entity.ToDoList", "UserId");
 
                     b.Navigation("Author");
 
@@ -215,11 +211,15 @@ namespace Adform.Todo.Database.Sql.Migrations
             modelBuilder.Entity("Adform.Todo.Model.Entity.TodoLabel", b =>
                 {
                     b.Navigation("TodoItem");
+
+                    b.Navigation("TodoList");
                 });
 
             modelBuilder.Entity("Adform.Todo.Model.Entity.User", b =>
                 {
                     b.Navigation("TodoItem");
+
+                    b.Navigation("TodoList");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,8 +22,8 @@ namespace Adform.Todo.Model.Entity
 
         [ForeignKey("UserId")]
         public int? UserId { get; set; } = 1;
-        public virtual List<ToDoItem>? TodoItems { get; set; }
         public virtual TodoLabel? Label { get; set; }
         public virtual User? Author { get; set; }
+        public virtual List<ToDoItem>? TodoItems { get; set; }
     }
 }

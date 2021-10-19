@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Adform.Todo.Database.Sql.Migrations
 {
-    public partial class todo_database : Migration
+    public partial class initialize_database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -100,12 +100,35 @@ namespace Adform.Todo.Database.Sql.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Labels",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "None" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Name", "Password" },
+                values: new object[] { 1, "default", "default" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Name", "Password" },
+                values: new object[] { 2, "admin", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "ToDoLists",
+                columns: new[] { "Id", "CreatedDate", "LabelId", "Name", "UpdatedDate", "UserId" },
+                values: new object[] { 1, new DateTime(2021, 10, 19, 18, 1, 17, 721, DateTimeKind.Local).AddTicks(4718), 1, "None", new DateTime(2021, 10, 19, 18, 1, 17, 722, DateTimeKind.Local).AddTicks(2102), 1 });
+
+            migrationBuilder.InsertData(
+                table: "ToDoItems",
+                columns: new[] { "Id", "CreatedDate", "IsComplete", "LabelId", "Name", "ToDoListId", "UpdatedDate", "UserId" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 1, "None", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ToDoItems_LabelId",
                 table: "ToDoItems",
-                column: "LabelId",
-                unique: true,
-                filter: "[LabelId] IS NOT NULL");
+                column: "LabelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ToDoItems_ToDoListId",
@@ -115,9 +138,7 @@ namespace Adform.Todo.Database.Sql.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ToDoItems_UserId",
                 table: "ToDoItems",
-                column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ToDoLists_LabelId",
