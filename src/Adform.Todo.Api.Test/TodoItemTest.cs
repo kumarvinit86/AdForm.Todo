@@ -6,6 +6,7 @@ using Adform.Todo.Model.Models;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SeriLogger.DbLogger;
@@ -95,12 +96,14 @@ namespace Adform.Todo.Api.Test
         public void Should_Update_Item()
         {
             //Arrange
+            var fixture = new Fixture();
             var todoItemQueryManager = new Mock<ITodoItemQueryManager>();
             var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var shouldreturn = new Fixture().Create<Task<int>>();
-            var addParameter = new Fixture().Create<Item>();
+            var shouldreturn = fixture.Create<Task<int>>();
+            var addParameter = fixture.Create<Item>();
+  
             todoItemCommandManager.Setup(x => x.Update(addParameter)).Returns(shouldreturn);
 
             var todoItemController = new TodoItemController(todoItemQueryManager.Object,
@@ -108,7 +111,7 @@ namespace Adform.Todo.Api.Test
               logger.Object,
               jsonWebTokenHandler.Object);
             //Act
-            var result = (ObjectResult)todoItemController.Patch(addParameter).Result;
+            var result = (ObjectResult)todoItemController.Put(addParameter).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -129,7 +132,7 @@ namespace Adform.Todo.Api.Test
               logger.Object,
               jsonWebTokenHandler.Object);
             //Act
-            var result = (ObjectResult)todoItemController.PatchUpdatelabel(1,1).Result;
+            var result = (ObjectResult)todoItemController.PutUpdateLable(1,1).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }

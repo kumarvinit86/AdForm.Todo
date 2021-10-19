@@ -2,25 +2,31 @@
 using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager.Default
 {
     /// <summary>
     /// To orchestrate the commands Action of todo list.
-    /// Tranform Dto to Entity
+    /// Transform Dto to Entity
     /// </summary>
     public class TodoListCommandManager : ITodoListCommandManager
     {
-        public TodoListCommandManager(ITodoListCommand todoListCommand, ITodoListQuery todoListQuery, IMapper mapper)
+        public TodoListCommandManager(ITodoListCommand todoListCommand, 
+            ITodoListQuery todoListQuery, 
+            IMapper mapper, 
+            ILabelQueryManager labelQueryManager)
         {
             _todoListCommand = todoListCommand;
             _todoListQuery = todoListQuery;
             _mapper = mapper;
+            _labelQueryManager = labelQueryManager;
         }
         private readonly ITodoListCommand _todoListCommand;
         private readonly ITodoListQuery _todoListQuery;
         private readonly IMapper _mapper;
+        private readonly ILabelQueryManager _labelQueryManager;
 
         /// <summary>
         /// to add list into the database
@@ -54,9 +60,25 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns>Operation result</returns>
-        public Task<int> Update(ItemList itemList)
+        public async Task<int> Update(ItemList itemList)
         {
-            return _todoListCommand.Update(_mapper.Map<ToDoList>(itemList));
+            var todoList = _mapper.Map<ToDoList>(itemList);
+            var data = await _todoListQuery.GetbyId(todoList.Id);
+            if (data == null)
+            {
+                return 0;
+            }
+            else
+            {
+                var label = (await _labelQueryManager.Get()).Where(x => x.Name == todoList.Label.Name).FirstOrDefault();
+                if (label != null)
+                {
+                    data.LabelId = label.Id;
+                }
+                data.Name = todoList.Name;
+                data.UpdatedDate = System.DateTime.Now;
+                return await _todoListCommand.Update(data);
+            }
         }
         /// <summary>
         /// to update the label of list

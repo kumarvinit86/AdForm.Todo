@@ -6,11 +6,10 @@ using Adform.Todo.Model.Models;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SeriLogger.DbLogger;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -108,7 +107,7 @@ namespace Adform.Todo.Api.Test
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoItemController.Patch(addParameter).Result;
+            var result = (ObjectResult)todoItemController.Put(addParameter).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -132,7 +131,7 @@ namespace Adform.Todo.Api.Test
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoItemController.PatchUpdatelabel(1,1).Result;
+            var result = (ObjectResult)todoItemController.PutUpdatelabel(1,1).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }

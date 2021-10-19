@@ -11,17 +11,19 @@ namespace Adform.Todo.Manager.Default
 {
     /// <summary>
     /// To orchestrate the Query Action of todo list.
-    /// Tranform Entity to Dto.
+    /// Transform Entity to Dto.
     /// </summary>
     public class TodoListQueryManager : ITodoListQueryManager
     {
-        public TodoListQueryManager(ITodoListQuery todoListQuery, IMapper mapper)
+        public TodoListQueryManager(ITodoListQuery todoListQuery, IMapper mapper, ILabelQueryManager labelQueryManager)
         {
             _todoListQuery = todoListQuery;
             _mapper = mapper;
+            _labelQueryManager = labelQueryManager;
         }
         private readonly ITodoListQuery _todoListQuery;
         private readonly IMapper _mapper;
+        private readonly ILabelQueryManager _labelQueryManager;
         /// <summary>
         /// to fetch the list of todolist of a user
         /// with the pagination.
@@ -31,8 +33,17 @@ namespace Adform.Todo.Manager.Default
         /// <returns>Tuple of list of todolist and the pagination details</returns>
         public async Task<ItemListPaged> Get(PagingDataRequest pagingData, int userId)
         {
-
-            var data = _mapper.Map<List<ItemList>>(await _todoListQuery.Get(userId));
+            var data = (from i in await _todoListQuery.Get(userId)
+                        join
+                        l in await _labelQueryManager.Get()
+                        on i.LabelId equals l.Id
+                        select new ItemList
+                        {
+                            Id = i.Id,
+                            Name = i.Name,
+                            LabelName = l.Name,
+                            UserId = i.UserId ?? default
+                        }).ToList();
 
             int count = data.Count;
             int CurrentPage = pagingData.PageNumber;

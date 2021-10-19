@@ -7,6 +7,6 @@ namespace Adform.Todo.Dto
     /// </summary>
     public class ItemList : Item
     {
-        public List<Item> ToDoItems { get; set; }
+       
     }
 }

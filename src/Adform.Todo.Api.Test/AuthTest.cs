@@ -25,7 +25,10 @@ namespace Adform.Todo.Api.Test
             var userQueryManager = new Mock<IUserQueryManager>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var userParameter = fixture.Create<AppUser>();
-            var shouldReturn = fixture.Build<User>().Without(x=>x.TodoItem).Create();
+            var shouldReturn = fixture.Build<User>()
+                .Without(x=>x.TodoItem)
+                .Without(x=>x.TodoList)
+                .Create();
             userQueryManager.Setup(x => x.ValidateUser(userParameter)).Returns(shouldReturn);
             jsonWebTokenHandler.Setup(x => x.GenerateJSONWebToken(It.IsAny<string>())).Returns(string.Empty);
 

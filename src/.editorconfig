@@ -29,3 +29,6 @@ dotnet_diagnostic.S4144.severity = none
 
 # S5547: Cipher algorithms should be robust
 dotnet_diagnostic.S5547.severity = none
+
+# S2971: "IEnumerable" LINQs should be simplified
+dotnet_diagnostic.S2971.severity = none

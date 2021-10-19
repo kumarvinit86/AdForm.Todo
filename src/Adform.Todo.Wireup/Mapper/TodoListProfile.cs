@@ -16,7 +16,7 @@ namespace Adform.Todo.Wireup.Mapper
             CreateMap<ItemList, ToDoList>()
                 .ForMember(to => to.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(to => to.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(to => to.TodoItems, opt => opt.MapFrom(src => src.ToDoItems))
+                .ForMember(to => to.TodoItems, opt => opt.Ignore())
                 .ForPath(to => to.Label.Name, opt => opt.MapFrom(src => src.LabelName)).ReverseMap();
         }
 
@@ -25,7 +25,6 @@ namespace Adform.Todo.Wireup.Mapper
             CreateMap<ToDoList, ItemList>()
                 .ForMember(to => to.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(to => to.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(to => to.ToDoItems, opt => opt.MapFrom(src => src.TodoItems))
                 .ForPath(to => to.LabelName, opt => opt.MapFrom(src => src.Label.Name)).ReverseMap();
         }
     }

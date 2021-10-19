@@ -4,6 +4,7 @@ using Adform.Todo.Manager;
 using Adform.Todo.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using SeriLogger.DbLogger;
 using System;
@@ -126,11 +127,11 @@ namespace Adform.Todo.Api.Controllers
         }
 
         // Patch todo/<TodoListController>
-        [HttpPatch]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Patch([FromBody] ItemList itemList)
+        public async Task<IActionResult> Put([FromBody] ItemList itemList)
         {
             try
             {
@@ -151,12 +152,40 @@ namespace Adform.Todo.Api.Controllers
             }
         }
 
-        // Patch todo/<TodoItemController>/updatelabeltoitemlist
-        [HttpPatch("updatelabeltoitemlist")]
+        // Patch todo/<TodoListController>
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PatchUpdatelabel(int itemId, int labelId)
+        public async Task<IActionResult> Patch([FromBody] JsonPatchDocument<ItemList> patchDoc)
+        {
+            try
+            {
+                var itemList = new ItemList();
+                patchDoc.ApplyTo(itemList, ModelState);
+                var result = await _todoListCommandManager.Update(itemList);
+                if (result > 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse() { Status = true, Message = "Result Not found." });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return BadRequest(new ApiResponse() { Status = false, Message = ex.Message });
+            }
+        }
+
+        // Patch todo/<TodoItemController>/updatelabeltoitemlist
+        [HttpPut("updatelabeltoitemlist")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PutUpdatelabel(int itemId, int labelId)
         {
             try
             {
