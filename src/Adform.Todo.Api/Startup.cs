@@ -5,9 +5,12 @@ using Adform.Todo.Api.Middleware;
 using Adform.Todo.Api.SwaggerConfig;
 using Adform.Todo.Api.SwaggerSupport;
 using Adform.Todo.Dto;
+using Adform.Todo.Manager;
+using Adform.Todo.Manager.Default;
 using Adform.Todo.Wireup;
 using HotChocolate;
 using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,17 +43,6 @@ namespace Adform.Todo.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services
-               .AddDataLoaderRegistry()
-               .AddGraphQL(s => SchemaBuilder.New()
-               .AddServices(s)
-               .AddType<LabelType>()
-               .AddType<ToDoListType>()
-               .AddQueryType<Query>()
-               .AddMutationType<Mutation>()
-               .AddAuthorizeDirectiveType()
-               .Create());
-          
             // Adding Authentication
             services.AddAuthentication(options =>
             {
@@ -70,9 +62,9 @@ namespace Adform.Todo.Service
                     ValidIssuer = Configuration.GetValue<string>("Issuer"),
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Secret_Key"))),
                     RequireExpirationTime = false
-                };                             
+                };
             });
-            
+
 
             services.AddApiVersioning(setupaction =>
             {
@@ -120,10 +112,21 @@ namespace Adform.Todo.Service
                             new string[] {}
                             }
                         });
-                
+
             });
             services.AddSwaggerExamplesFromAssemblyOf<AppUserExample>();
             ApplicationWireup.ConfigureServices(services, Configuration);
+            services
+             .AddDataLoaderRegistry()
+             .AddGraphQL(s => SchemaBuilder.New()
+             .AddServices(s)
+             .AddType<ToDoItemType>()
+             .AddType<LabelType>()
+             .AddType<ToDoListType>()
+             .AddQueryType<Query>()
+             .AddMutationType<Mutation>()
+             .AddAuthorizeDirectiveType()
+             .Create());
             services.AddControllersWithViews(options =>
             {
                 options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
@@ -137,10 +140,15 @@ namespace Adform.Todo.Service
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UsePlayground(new PlaygroundOptions
+                {
+                    QueryPath = "/api",
+                    Path = "/graphql"
+                });
             }
 
             app.UseHttpsRedirection();
-
+            app.UseGraphQL("/api");
             app.UseRouting();
             app.UseSwagger();
             app.UseSwagger(c => c.SerializeAsV2 = true);
@@ -158,8 +166,6 @@ namespace Adform.Todo.Service
                 setupAction.EnableDeepLinking();
                 setupAction.DisplayOperationId();
             });
-
-            app.UseGraphQL();
             app.UsePlayground();
             ApplicationWireup.Configure(app);
             app.UseRequestResponseLogging();
