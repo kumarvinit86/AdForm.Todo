@@ -4,6 +4,9 @@ using System;
 
 namespace Adform.Todo.Database.Sql.DataBaseContext
 {
+    /// <summary>
+    /// To create the seed of default value into the database
+    /// </summary>
     public class SeedTodoDatabase
     {
         public SeedTodoDatabase(ModelBuilder modelBuilder)
@@ -11,6 +14,9 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
             _modelBuilder = modelBuilder;
         }
         private readonly ModelBuilder _modelBuilder;
+        /// <summary>
+        /// Seed user table
+        /// </summary>
         public void SeedUser()
         {
             _modelBuilder.Entity<User>()
@@ -28,7 +34,9 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
                         Password = "AKDS+52ehoM="
                     });
         }
-
+        /// <summary>
+        /// seed label table
+        /// </summary>
         public void SeedLabel()
         {
             _modelBuilder.Entity<TodoLabel>()
@@ -54,6 +62,9 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
                    });
         }
 
+        /// <summary>
+        /// seed todoitem table
+        /// </summary>
         public void SeedTodoItem()
         {
             _modelBuilder.Entity<ToDoItem>()

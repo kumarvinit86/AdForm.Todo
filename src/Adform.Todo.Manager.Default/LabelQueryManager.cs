@@ -8,7 +8,7 @@ namespace Adform.Todo.Manager.Default
 {
     /// <summary>
     /// To orchestrate the Query Action of label.
-    /// Tranform Entity to Dto.
+    /// Transform Entity to Dto.
     /// </summary>
     public class LabelQueryManager : ILabelQueryManager
     {

@@ -14,9 +14,9 @@ namespace Adform.Todo.Essentials
         public readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Methtod to Encrypt string using MD5
+        /// Method to Encrypt string using MD5
         /// </summary>
-        /// <param name="toEncrypt">String to encrpt</param>
+        /// <param name="toEncrypt">String to encrypt</param>
         /// <returns></returns>
         public string Encrypt(string toEncrypt)
         {
@@ -44,9 +44,9 @@ namespace Adform.Todo.Essentials
         }
 
         /// <summary>
-        /// Methtod to Encrypt string using MD5
+        /// Method to Encrypt string using MD5
         /// </summary>
-        /// <param name="toDecrypt">String to encrpt</param>
+        /// <param name="toDecrypt">String to encrypt</param>
         /// <returns></returns>
         public string Decrypt(string toDecrypt)
         {

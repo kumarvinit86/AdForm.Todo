@@ -10,7 +10,7 @@ namespace Adform.Todo.Manager.Default
 {
     /// <summary>
     /// To orchestrate the command of todoItems
-    /// Tranform Dto to Entity
+    /// Transform Dto to Entity
     /// </summary>
     public class TodoItemCommandManager : ITodoItemCommandManager
     {

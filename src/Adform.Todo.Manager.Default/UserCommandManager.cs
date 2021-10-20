@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager.Default
 {
+    /// <summary>
+    /// To orchestrate the commands Action of user.
+    /// Transform Dto to Entity
+    /// </summary>
     public class UserCommandManager : IUserCommandManager
     {
         public UserCommandManager(IUserCommand userCommand, IMapper mapper, IConfiguration configuration)
@@ -19,6 +23,12 @@ namespace Adform.Todo.Manager.Default
         private readonly IUserCommand _userCommand;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// To register a new user
+        /// </summary>
+        /// <param name="appUser"></param>
+        /// <returns></returns>
         public async Task<int> Add(AppUser appUser)
         {
             appUser.Password = new CryptoHandler(_configuration).Encrypt(appUser.Password);

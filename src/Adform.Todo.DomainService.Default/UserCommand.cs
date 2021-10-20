@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Adform.Todo.DomainService.Default
 {
+    /// <summary>
+    ///  To operate the commands Action of user.
+    /// </summary>
     public class UserCommand : IUserCommand
     {
         public UserCommand(ICommandRepository<User> commandRepository)
