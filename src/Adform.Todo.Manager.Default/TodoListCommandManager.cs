@@ -2,6 +2,7 @@
 using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -96,6 +97,7 @@ namespace Adform.Todo.Manager.Default
             else
             {
                 list.LabelId = labelId;
+                list.UpdatedDate = DateTime.Now;
                 return await _todoListCommand.Update(list);
             }
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Adform.Todo.Database.Sql.Migrations
 {
     [DbContext(typeof(TodoDbContext))]
-    [Migration("20211019123118_initialize_database")]
-    partial class initialize_database
+    [Migration("20211020114853_initialize_db")]
+    partial class initialize_db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,10 +107,10 @@ namespace Adform.Todo.Database.Sql.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2021, 10, 19, 18, 1, 17, 721, DateTimeKind.Local).AddTicks(4718),
+                            CreatedDate = new DateTime(2021, 10, 20, 17, 18, 51, 258, DateTimeKind.Local).AddTicks(4988),
                             LabelId = 1,
                             Name = "None",
-                            UpdatedDate = new DateTime(2021, 10, 19, 18, 1, 17, 722, DateTimeKind.Local).AddTicks(2102),
+                            UpdatedDate = new DateTime(2021, 10, 20, 17, 18, 51, 259, DateTimeKind.Local).AddTicks(8346),
                             UserId = 1
                         });
                 });
@@ -159,13 +159,13 @@ namespace Adform.Todo.Database.Sql.Migrations
                         {
                             Id = 1,
                             Name = "default",
-                            Password = "default"
+                            Password = "AKDS+52ehoM="
                         },
                         new
                         {
                             Id = 2,
                             Name = "admin",
-                            Password = "admin"
+                            Password = "AKDS+52ehoM="
                         });
                 });
 
@@ -173,7 +173,8 @@ namespace Adform.Todo.Database.Sql.Migrations
                 {
                     b.HasOne("Adform.Todo.Model.Entity.TodoLabel", "Label")
                         .WithOne("TodoItem")
-                        .HasForeignKey("Adform.Todo.Model.Entity.ToDoItem", "LabelId");
+                        .HasForeignKey("Adform.Todo.Model.Entity.ToDoItem", "LabelId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Adform.Todo.Model.Entity.ToDoList", "ToDoItemList")
                         .WithMany("TodoItems")
@@ -194,7 +195,8 @@ namespace Adform.Todo.Database.Sql.Migrations
                 {
                     b.HasOne("Adform.Todo.Model.Entity.TodoLabel", "Label")
                         .WithOne("TodoList")
-                        .HasForeignKey("Adform.Todo.Model.Entity.ToDoList", "LabelId");
+                        .HasForeignKey("Adform.Todo.Model.Entity.ToDoList", "LabelId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Adform.Todo.Model.Entity.User", "Author")
                         .WithOne("TodoList")

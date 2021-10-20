@@ -10,7 +10,7 @@ namespace Adform.Todo.Database.Sql
     /// <summary>
     /// Generic Repository implementation for Commands.
     /// </summary>
-    /// <typeparam name="TEntity">Tamplate parameter to initialize the repository.</typeparam>
+    /// <typeparam name="TEntity">Template parameter to initialize the repository.</typeparam>
     public class CommandRepository<TEntity> : ICommandRepository<TEntity> where TEntity : class
     {
         /// <summary>
@@ -40,7 +40,7 @@ namespace Adform.Todo.Database.Sql
         /// <summary>
         /// Generic method to add multiple entity.
         /// </summary>
-        /// <param name="entities">Tamplate parameter to initialize db entity.</param>
+        /// <param name="entities">Template parameter to initialize db entity.</param>
         /// <returns>Task integer value</returns>
         public async Task<int> AddRange(List<TEntity> entities)
         {
@@ -51,7 +51,7 @@ namespace Adform.Todo.Database.Sql
         /// <summary>
         /// Generic method to remove entity.
         /// </summary>
-        /// <param name="entity">Tamplate parameter to initialize db entity.</param>
+        /// <param name="entity">Template parameter to initialize db entity.</param>
         /// <returns>Task integer value</returns>
         public async Task<int> Remove(TEntity entity)
         {
@@ -62,7 +62,7 @@ namespace Adform.Todo.Database.Sql
         /// <summary>
         /// Generic method to remove multiple entity.
         /// </summary>
-        /// <param name="entities">Tamplate parameter to initialize db entity.</param>
+        /// <param name="entities">Template parameter to initialize db entity.</param>
         /// <returns>Task integer value</returns>
         public async Task<int> RemoveRange(List<TEntity> entities)
         {
@@ -73,18 +73,25 @@ namespace Adform.Todo.Database.Sql
         /// <summary>
         /// Generic method to update entity.
         /// </summary>
-        /// <param name="entity">Tamplate parameter to initialize db entity.</param>
+        /// <param name="entity">Template parameter to initialize db entity.</param>
         /// <returns>Task integer value</returns>
         public async Task<int> Update(TEntity entity)
         {
-            Entities.Update(entity);
-            return await TodoDatabase.SaveChangesAsync();
+            try
+            {
+                Entities.Update(entity);
+                return await TodoDatabase.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
         /// Generic method to update range entity.
         /// </summary>
-        /// <param name="entities">Tamplate parameter to initialize db entity.</param>
+        /// <param name="entities">Template parameter to initialize db entity.</param>
         /// <returns>Task integer value</returns>
         public async Task<int> UpdateRange(List<TEntity> entities)
         {
@@ -95,17 +102,12 @@ namespace Adform.Todo.Database.Sql
         /// <summary>
         /// Generic method to execute sql proc or query.
         /// </summary>
-        /// <param name="query">To use Procedure or inline query</param>
+        /// <param name="query">To use Procedure or in-line query</param>
         /// <returns>Task integer value</returns>
         public async Task<int> CommandByQuery(string query)
         {
             Entities.FromSqlRaw(query);
             return await TodoDatabase.SaveChangesAsync();
-        }
-
-        public void Dispose()
-        {
-            TodoDatabase.Dispose();
         }
     }
 }

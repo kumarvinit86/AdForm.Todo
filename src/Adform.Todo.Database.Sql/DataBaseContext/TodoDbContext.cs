@@ -44,15 +44,17 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
             modelBuilder.Entity<ToDoItem>()
                     .ToTable("ToDoItems").HasOne(t => t.ToDoItemList).WithMany(l => l.TodoItems);
             modelBuilder.Entity<ToDoItem>()
-                    .ToTable("ToDoItems").HasOne(t => t.Label).WithOne(l => l.TodoItem);
+                    .ToTable("ToDoItems").HasOne(t => t.Label).WithOne(l => l.TodoItem).OnDelete(DeleteBehavior.ClientCascade);
             modelBuilder.Entity<User>()
                    .ToTable("Users");
             modelBuilder.Entity<TodoLabel>()
                   .ToTable("Labels");
+
             modelBuilder.Entity<ToDoList>()
                   .ToTable("ToDoLists").HasOne(t => t.Author).WithOne(u => u.TodoList);
             modelBuilder.Entity<ToDoList>()
-                .ToTable("ToDoLists").HasOne(t => t.Label).WithOne(u => u.TodoList);
+                .ToTable("ToDoLists").HasOne(t => t.Label).WithOne(u => u.TodoList).OnDelete(DeleteBehavior.ClientCascade);
+
             modelBuilder.Entity<ToDoList>().HasIndex(x => x.UserId).IsUnique(false);
             modelBuilder.Entity<ToDoList>().HasIndex(x => x.LabelId).IsUnique(false);
 

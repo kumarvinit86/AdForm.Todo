@@ -20,6 +20,7 @@ using Adform.Todo.GraphQl.Query;
 using HotChocolate;
 using Adform.Todo.Api.GraphQl.Model;
 using Microsoft.AspNetCore.Http;
+using Adform.Todo.Graphql.Mutation;
 
 namespace Adform.Todo.Wireup
 {
@@ -43,8 +44,8 @@ namespace Adform.Todo.Wireup
             _services.AddGraphQL(s => SchemaBuilder.New()
                       .AddServices(s)
                       .AddType<LabelType>()
+                      .AddMutationType<Mutation>()
                       .AddQueryType<Query>()
-                  //.AddAuthorizeDirectiveType()
                   .Create());
         }
 

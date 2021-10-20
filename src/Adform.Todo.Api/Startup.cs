@@ -1,10 +1,7 @@
-using Adform.Todo.Api.GraphQl.Model;
 using Adform.Todo.Api.Middleware;
 using Adform.Todo.Api.SwaggerConfig;
 using Adform.Todo.Api.SwaggerSupport;
-using Adform.Todo.GraphQl.Query;
 using Adform.Todo.Wireup;
-using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
