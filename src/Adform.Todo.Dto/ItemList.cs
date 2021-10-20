@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Adform.Todo.Dto
+﻿namespace Adform.Todo.Dto
 {
     /// <summary>
     /// DTO for todolist

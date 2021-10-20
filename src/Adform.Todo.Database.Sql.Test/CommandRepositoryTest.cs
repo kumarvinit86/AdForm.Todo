@@ -30,7 +30,7 @@ namespace Adform.Todo.Database.Sql.Test
 			var dbContext = new Mock<DbContext>();
 			dbContext.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
-			var commandRepository = new CommandRepository<DatabaseConnectionTest>(databaseConnection);
+			var commandRepository = CommandRepository<DatabaseConnectionTest>.GetInstance;
 			commandRepository.Entities = entityMock.Object;
 			commandRepository.TodoDatabase = dbContext.Object;
 
@@ -55,7 +55,7 @@ namespace Adform.Todo.Database.Sql.Test
 			entityList.Add(entity);
 
 			var entityMock = entityList.AsQueryable().BuildMockDbSet();
-			var commandRepository = new CommandRepository<DatabaseConnectionTest>(databaseConnection);
+			var commandRepository = CommandRepository<DatabaseConnectionTest>.GetInstance;
 
 			entityMock.Setup(x => x.Update(entity));
 			commandRepository.Entities = entityMock.Object;
@@ -98,7 +98,7 @@ namespace Adform.Todo.Database.Sql.Test
 			entityList.Add(entity);
 
 			var entityMock = entityList.AsQueryable().BuildMockDbSet();
-			var commandRepository = new CommandRepository<DatabaseConnectionTest>(databaseConnection);
+			var commandRepository = CommandRepository<DatabaseConnectionTest>.GetInstance;
 
 			entityMock.Setup(x => x.Remove(entity));
 			commandRepository.Entities = entityMock.Object;

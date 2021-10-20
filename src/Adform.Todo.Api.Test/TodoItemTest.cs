@@ -6,12 +6,9 @@ using Adform.Todo.Model.Models;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SeriLogger.DbLogger;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -45,26 +42,29 @@ namespace Adform.Todo.Api.Test
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
-        //[Fact]
-        //public void Should_Fetch_item_by_Id()
-        //{
-        //    //Arrange
-        //    var todoItemQueryManager = new Mock<ITodoItemQueryManager>();
-        //    var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
-        //    var logger = new Mock<IDbLogger>();
-        //    var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-        //    var shouldreturn = new Fixture().Create<Task<Item>>();
-        //    todoItemQueryManager.Setup(x => x.GetbyId(2)).Returns(shouldreturn);
+        [Fact]
+        public void Should_Fetch_item_by_Id()
+        {
+            //Arrange
+            var todoItemQueryManager = new Mock<ITodoItemQueryManager>();
+            var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
+            var logger = new Mock<IDbLogger>();
+            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
+            var shouldreturn = new Fixture().Create<Task<Item>>();         
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
+            todoItemQueryManager.Setup(x => x.GetbyId(1,1)).Returns(shouldreturn);
 
-        //    var todoItemController = new TodoItemController(todoItemQueryManager.Object,
-        //       todoItemCommandManager.Object,
-        //       logger.Object,
-        //       jsonWebTokenHandler.Object);
-        //    //Act
-        //    var result = (ObjectResult)todoItemController.GetbyId(2).Result;
-        //    //Assert
-        //    result.StatusCode.Should().Be(StatusCodes.Status200OK);
-        //}
+            var todoItemController = new TodoItemController(todoItemQueryManager.Object,
+               todoItemCommandManager.Object,
+               logger.Object,
+               jsonWebTokenHandler.Object);
+            todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
+            //Act
+            var result = (ObjectResult)todoItemController.GetbyId(1).Result;
+            //Assert
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+        }
 
         [Fact]
         public void Should_Add_Item_by_User()
@@ -105,37 +105,41 @@ namespace Adform.Todo.Api.Test
             var addParameter = fixture.Create<Item>();
   
             todoItemCommandManager.Setup(x => x.Update(addParameter)).Returns(shouldreturn);
-
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoItemController(todoItemQueryManager.Object,
               todoItemCommandManager.Object,
               logger.Object,
               jsonWebTokenHandler.Object);
+            todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
             var result = (ObjectResult)todoItemController.Put(addParameter).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
-        //[Fact]
-        //public void Should_Update_Items_label()
-        //{
-        //    //Arrange
-        //    var todoItemQueryManager = new Mock<ITodoItemQueryManager>();
-        //    var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
-        //    var logger = new Mock<IDbLogger>();
-        //    var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-        //    var shouldreturn = new Fixture().Create<Task<int>>();           
-        //    todoItemCommandManager.Setup(x => x.Updatelabel(1,1)).Returns(shouldreturn);
-
-        //    var todoItemController = new TodoItemController(todoItemQueryManager.Object,
-        //      todoItemCommandManager.Object,
-        //      logger.Object,
-        //      jsonWebTokenHandler.Object);
-        //    //Act
-        //    var result = (ObjectResult)todoItemController.PutUpdateLable(1,1).Result;
-        //    //Assert
-        //    result.StatusCode.Should().Be(StatusCodes.Status200OK);
-        //}
+        [Fact]
+        public void Should_Update_Items_label()
+        {
+            //Arrange
+            var todoItemQueryManager = new Mock<ITodoItemQueryManager>();
+            var todoItemCommandManager = new Mock<ITodoItemCommandManager>();
+            var logger = new Mock<IDbLogger>();
+            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
+            var shouldreturn = new Fixture().Create<Task<int>>();
+            todoItemCommandManager.Setup(x => x.Updatelabel(1, 1,1)).Returns(shouldreturn);
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
+            var todoItemController = new TodoItemController(todoItemQueryManager.Object,
+              todoItemCommandManager.Object,
+              logger.Object,
+              jsonWebTokenHandler.Object);
+            todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
+            //Act
+            var result = (ObjectResult)todoItemController.PutUpdateLable(1, 1).Result;
+            //Assert
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
+        }
 
         [Fact]
         public void Should_Delete_Items_by_Id()
@@ -146,12 +150,14 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var shouldreturn = new Fixture().Create<Task<int>>();
-            todoItemCommandManager.Setup(x => x.DeletebyId(1)).Returns(shouldreturn);
-
+            todoItemCommandManager.Setup(x => x.DeletebyId(1,1)).Returns(shouldreturn);
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoItemController(todoItemQueryManager.Object,
               todoItemCommandManager.Object,
               logger.Object,
               jsonWebTokenHandler.Object);
+            todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
             var result = (ObjectResult)todoItemController.Delete(1).Result;
             //Assert

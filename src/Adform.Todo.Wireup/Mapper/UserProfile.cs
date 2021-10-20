@@ -1,9 +1,6 @@
 ﻿using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Adform.Todo.Wireup.Mapper
 {

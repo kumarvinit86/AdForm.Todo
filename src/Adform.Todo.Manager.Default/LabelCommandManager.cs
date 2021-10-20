@@ -2,19 +2,20 @@
 using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager.Default
 {
     /// <summary>
     /// To orchestrate the commands Action of label.
-    /// Tranform Dto to Entity
+    /// Transform Dto to Entity
     /// </summary>
     public class LabelCommandManager : ILabelCommandManager
     {
-        public LabelCommandManager(ILabelCommand labelCommand, 
-            IMapper mapper, 
-            ITodoItemCommandManager todoItemCommandManager, 
+        public LabelCommandManager(ILabelCommand labelCommand,
+            IMapper mapper,
+            ITodoItemCommandManager todoItemCommandManager,
             ITodoListCommandManager todoListCommandManager,
             ITodoItemQueryManager todoItemQueryManager,
             ITodoListQueryManager todoListQueryManager
@@ -47,12 +48,12 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="id">id of label to remove.</param>
         /// <returns>Operation result</returns>
-        public async Task<int> DeletebyId(int id,int userId)
+        public async Task<int> DeletebyId(int id, int userId)
         {
-            var items = await _todoItemQueryManager.Get(userId);
+            var items = (await _todoItemQueryManager.Get(userId)).Where(x => x.LabelId == id).ToList();
             await _todoItemCommandManager.DeleteRange(items);
 
-            var lists = await _todoListQueryManager.Get(userId);
+            var lists = (await _todoListQueryManager.Get(userId)).Where(x => x.LabelId == id).ToList();
             await _todoListCommandManager.DeleteRange(lists);
 
             return await _labelCommand.DeletebyId(id);

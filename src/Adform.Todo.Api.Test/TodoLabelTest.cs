@@ -1,5 +1,6 @@
 ﻿using Adform.Todo.Api.Controllers;
 using Adform.Todo.Dto;
+using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
 using AutoFixture;
 using FluentAssertions;
@@ -22,13 +23,17 @@ namespace Adform.Todo.Api.Test
             var labelQueryManager = new Mock<ILabelQueryManager>();
             var logger = new Mock<IDbLogger>();
             var shouldreturn = new Fixture().Create<Task<List<Label>>>();
-
+            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             labelQueryManager.Setup(x => x.Get()).Returns(shouldreturn);
-            var todoItemController = new TodoLabelController(labelQueryManager.Object,
+            var todoLabelController = new TodoLabelController(labelQueryManager.Object,
                 null,
-                logger.Object);
+                logger.Object,
+                jsonWebTokenHandler.Object);
+            todoLabelController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoLabelController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoItemController.Get().Result;
+            var result = (ObjectResult)todoLabelController.Get().Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -40,13 +45,16 @@ namespace Adform.Todo.Api.Test
             var labelQueryManager = new Mock<ILabelQueryManager>();
             var logger = new Mock<IDbLogger>();
             var shouldreturn = new Fixture().Create<Task<Label>>();
-
+            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             labelQueryManager.Setup(x => x.GetbyId(1)).Returns(shouldreturn);
-            var todoItemController = new TodoLabelController(labelQueryManager.Object,
+            var todoLabelController = new TodoLabelController(labelQueryManager.Object,
                 null,
-                logger.Object);
+                logger.Object, jsonWebTokenHandler.Object);
+            todoLabelController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoLabelController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoItemController.GetbyId(1).Result;
+            var result = (ObjectResult)todoLabelController.GetbyId(1).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -60,12 +68,17 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var shouldreturn = fixture.Create<Task<int>>();
             var addParameter = fixture.Create<Label>();
+            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             labelCommandManager.Setup(x => x.Add(addParameter)).Returns(shouldreturn);
-            var todoLableController = new TodoLabelController(null,
+            var todoLabelController = new TodoLabelController(null,
                 labelCommandManager.Object,
-                logger.Object);
+                logger.Object,
+                jsonWebTokenHandler.Object);
+            todoLabelController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoLabelController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoLableController.Post(addParameter).Result;
+            var result = (ObjectResult)todoLabelController.Post(addParameter).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -79,12 +92,17 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var shouldreturn = fixture.Create<Task<int>>();
             var addParameter = fixture.Create<Label>();
+            var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
+            jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             labelCommandManager.Setup(x => x.Add(addParameter)).Returns(shouldreturn);
-            var todoLableController = new TodoLabelController(null,
+            var todoLabelController = new TodoLabelController(null,
                 labelCommandManager.Object,
-                logger.Object);
+                logger.Object,
+                jsonWebTokenHandler.Object);
+            todoLabelController.ControllerContext.HttpContext = new DefaultHttpContext();
+            todoLabelController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoLableController.Post(addParameter).Result;
+            var result = (ObjectResult)todoLabelController.Post(addParameter).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }

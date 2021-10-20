@@ -17,8 +17,8 @@ namespace Adform.Todo.Api.Controllers
     [ApiController]
     public class TodoLabelController : ControllerBase
     {
-        public TodoLabelController(ILabelQueryManager labelQueryManager, 
-            ILabelCommandManager labelCommandManager, 
+        public TodoLabelController(ILabelQueryManager labelQueryManager,
+            ILabelCommandManager labelCommandManager,
             IDbLogger logger,
              IJsonWebTokenHandler jsonWebTokenHandler)
         {
@@ -112,7 +112,7 @@ namespace Adform.Todo.Api.Controllers
             }
         }
 
-      
+
 
         // DELETE todo/<TodolabelController>/5
         [HttpDelete("{id}")]
@@ -128,7 +128,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var result = await _labelCommandManager.DeletebyId(id, userId??default);
+                var result = await _labelCommandManager.DeletebyId(id, userId ?? default);
                 if (result > 0)
                 {
                     return Ok(result);

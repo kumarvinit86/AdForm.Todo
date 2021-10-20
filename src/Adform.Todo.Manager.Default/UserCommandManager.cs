@@ -4,9 +4,6 @@ using Adform.Todo.Essentials;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager.Default

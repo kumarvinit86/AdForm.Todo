@@ -2,9 +2,9 @@
 using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager.Default
 {

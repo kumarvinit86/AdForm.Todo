@@ -16,9 +16,9 @@ namespace Adform.Todo.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public AuthController(IUserQueryManager userQueryManager, 
+        public AuthController(IUserQueryManager userQueryManager,
             IUserCommandManager userCommandManager,
-            IDbLogger logger, 
+            IDbLogger logger,
             IJsonWebTokenHandler jsonWebTokenHandler)
         {
             _userQueryManager = userQueryManager;
@@ -40,7 +40,7 @@ namespace Adform.Todo.Api.Controllers
         public IActionResult Post([FromBody] AppUser appUser)
         {
             var userdata = _userQueryManager.ValidateUser(appUser);
-            if(userdata!=null)
+            if (userdata != null)
             {
                 var token = _jsonWebTokenHandler.GenerateJSONWebToken(userdata.Id.ToString());
                 return Ok(new AutherizationResponse()
@@ -52,12 +52,12 @@ namespace Adform.Todo.Api.Controllers
             }
             else
             {
-               return BadRequest(new AutherizationResponse()
-               {
-                   IsValidUser = false,
-                   AuthToken = string.Empty,
-                   Message = "Username and Password are incorrect."
-               });            
+                return BadRequest(new AutherizationResponse()
+                {
+                    IsValidUser = false,
+                    AuthToken = string.Empty,
+                    Message = "Username and Password are incorrect."
+                });
             }
         }
         // POST todo/<LoginController>/register

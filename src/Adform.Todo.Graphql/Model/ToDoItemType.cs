@@ -4,9 +4,9 @@ using HotChocolate.Types;
 namespace Adform.Todo.GraphQl.Model
 {
     /// <summary>
-    /// Label dto for  GraphQL
+    /// TodoItem dto for GraphQL
     /// </summary>
-    public class LabelType : ObjectType<Label>
+    class ToDoItemType : ObjectType<Item>
     {
     }
 }

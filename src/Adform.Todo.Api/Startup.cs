@@ -109,14 +109,6 @@ namespace Adform.Todo.Service
             });
             services.AddSwaggerExamplesFromAssemblyOf<AppUserExample>();
             ApplicationWireup.ConfigureServices(services, Configuration);
-            //services.AddGraphQL(
-            //   c => SchemaBuilder.New()
-            //   .AddServices(c)
-            //   .AddType<LabelType>()
-            //   .AddQueryType<Query>()
-            //   .Create());
-
-          
 
             services.AddControllersWithViews(options =>
             {
@@ -139,7 +131,7 @@ namespace Adform.Todo.Service
             }
 
             app.UseHttpsRedirection();
-           
+
             app.UseRouting();
             app.UseSwagger();
             app.UseSwagger(c => c.SerializeAsV2 = true);

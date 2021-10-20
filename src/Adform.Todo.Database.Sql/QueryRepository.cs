@@ -25,7 +25,14 @@ namespace Adform.Todo.Database.Sql
             TodoDatabase = new TodoDbContext(databaseConnection);
             Entities = TodoDatabase.Set<TEntity>();
         }
+        private QueryRepository()
+        {
 
+        }
+        /// <summary>
+        /// This property is only to initialize current class for unit test
+        /// </summary>
+        public static QueryRepository<TEntity> GetInstance { get { return new QueryRepository<TEntity>(); } }
         public DbContext TodoDatabase { get; set; }
         public DbSet<TEntity> Entities { get; set; }
         /// <summary>

@@ -25,7 +25,7 @@ namespace Adform.Todo.Database.Sql.Test
 			//Arrange
 			var databaseConnections = new Fixture().Create<List<DatabaseConnection>>();
 			var entityMock = databaseConnections.AsQueryable().BuildMockDbSet();
-			var queryRepository = new QueryRepository<DatabaseConnection>(databaseConnection);
+			var queryRepository = new QueryRepository<DatabaseConnection>();
 			queryRepository.Entities = entityMock.Object;
 
 			//Act
@@ -46,7 +46,7 @@ namespace Adform.Todo.Database.Sql.Test
 			entityList.Add(entity);
 
 			var entityMock = entityList.AsQueryable().BuildMockDbSet();
-			var queryRepository = new QueryRepository<DatabaseConnectionTest>(databaseConnection);
+			var queryRepository = new QueryRepository<DatabaseConnectionTest>();
 			entityMock.Setup(x => x.FindAsync(databseId)).ReturnsAsync((object[] ids) =>
 			{
 				return entityList.FirstOrDefault(x => x.Id == databseId);

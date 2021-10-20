@@ -1,8 +1,6 @@
 ﻿using Adform.Todo.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Adform.Todo.Database.Sql.DataBaseContext
 {

@@ -1,5 +1,4 @@
-﻿using Adform.Todo.Model.Enum;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Adform.Todo.Model.Entity
