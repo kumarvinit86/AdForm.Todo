@@ -94,7 +94,8 @@ namespace Adform.Todo.Graphql.Mutation
         /// <returns></returns>
         public async Task<int> DeleteToDoItembyId(int id)
         {
-            return await _todoItemCommandManager.DeletebyId(id);
+            var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
+            return await _todoItemCommandManager.DeletebyId(id, userId ?? default);
         }
 
         /// <summary>
@@ -129,7 +130,8 @@ namespace Adform.Todo.Graphql.Mutation
         /// <returns></returns>
         public async Task<int> DeleteToDoListbyId(int id)
         {
-            return await _todoListCommandManager.DeletebyId(id);
+            var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
+            return await _todoListCommandManager.DeletebyId(id, userId ?? default);
         }
 
         /// <summary>

@@ -40,9 +40,9 @@ namespace Adform.Todo.DomainService.Default
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> DeletebyId(int id)
+        public async Task<int> DeletebyId(int id, int userId)
         {
-            var data = _commandRepository.Entities.Where(x => x.Id == id).FirstOrDefault();
+            var data = _commandRepository.Entities.Where(x => x.Id == id && x.UserId == userId).FirstOrDefault();
             if (data != null)
                 return await _commandRepository.Remove(data);
             else { return 0; }

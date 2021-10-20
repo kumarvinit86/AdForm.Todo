@@ -10,7 +10,7 @@ namespace Adform.Todo.Manager
         Task<int> Add(ItemList itemList);
         Task<int> Update(ItemList itemList);
         Task<int> Delete(ItemList itemList);
-        Task<int> DeletebyId(int id);
+        Task<int> DeletebyId(int id,int userId);
         Task<int> Updatelabel(int itemId, int labelId, int userId);
         Task<int> DeleteRange(List<ToDoList> lists);
     }

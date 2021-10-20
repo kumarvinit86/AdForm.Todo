@@ -43,13 +43,13 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var userId= _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
                 if (userId == null)
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var tupleResult = await _todoItemQueryManager.Get(pagingDataRequest,userId ?? default);
-                var result= tupleResult.item;
+                var tupleResult = await _todoItemQueryManager.Get(pagingDataRequest, userId ?? default);
+                var result = tupleResult.item;
                 if (result.Count > 0)
                 {
                     return Ok(tupleResult);
@@ -81,7 +81,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var result = await _todoItemQueryManager.GetbyId(id, userId??default);
+                var result = await _todoItemQueryManager.GetbyId(id, userId ?? default);
                 if (result != null)
                 {
                     return Ok(result);
@@ -114,7 +114,7 @@ namespace Adform.Todo.Api.Controllers
                 }
                 item.UserId = userId ?? default;
                 var result = await _todoItemCommandManager.Add(item);
-                if (result >0)
+                if (result > 0)
                 {
                     return Ok(result);
                 }
@@ -202,7 +202,7 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutUpdateLable(int itemId,int lableId)
+        public async Task<IActionResult> PutUpdateLable(int itemId, int lableId)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var result = await _todoItemCommandManager.Updatelabel(itemId, lableId, userId??default);
+                var result = await _todoItemCommandManager.Updatelabel(itemId, lableId, userId ?? default);
                 if (result > 0)
                 {
                     return Ok(result);
@@ -237,7 +237,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _todoItemCommandManager.DeletebyId(id);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoItemCommandManager.DeletebyId(id, userId ?? default);
                 if (result > 0)
                 {
                     return Ok(result);

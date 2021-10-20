@@ -53,9 +53,9 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Operation result</returns>
-        public Task<int> DeletebyId(int id)
+        public Task<int> DeletebyId(int id,int userId)
         {
-            return _todoListCommand.DeletebyId(id);
+            return _todoListCommand.DeletebyId(id,userId);
         }
         /// <summary>
         /// to update the list

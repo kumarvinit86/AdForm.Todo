@@ -19,8 +19,8 @@ namespace Adform.Todo.Api.Controllers
     public class TodoListController : ControllerBase
     {
 
-        public TodoListController(ITodoListQueryManager todoListQueryManager, 
-            ITodoListCommandManager todoListCommandManager, 
+        public TodoListController(ITodoListQueryManager todoListQueryManager,
+            ITodoListCommandManager todoListCommandManager,
             IDbLogger logger,
             IJsonWebTokenHandler jsonWebTokenHandler)
         {
@@ -82,7 +82,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var result = await _todoListQueryManager.GetbyId(id, userId??default);
+                var result = await _todoListQueryManager.GetbyId(id, userId ?? default);
                 if (result != null)
                 {
                     return Ok(result);
@@ -145,7 +145,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                itemList.UserId = userId??default;
+                itemList.UserId = userId ?? default;
 
                 var result = await _todoListCommandManager.Update(itemList);
                 if (result > 0)
@@ -212,7 +212,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var result = await _todoListCommandManager.Updatelabel(itemId, labelId, userId??default);
+                var result = await _todoListCommandManager.Updatelabel(itemId, labelId, userId ?? default);
                 if (result > 0)
                 {
                     return Ok(result);
@@ -237,7 +237,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _todoListCommandManager.DeletebyId(id);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoListCommandManager.DeletebyId(id, userId ?? default);
                 if (result > 0)
                 {
                     return Ok(result);

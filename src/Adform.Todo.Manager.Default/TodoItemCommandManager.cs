@@ -52,9 +52,9 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> DeletebyId(int id)
+        public async Task<int> DeletebyId(int id,int userId)
         {
-            return await _todoItemCommand.DeletebyId(id);
+            return await _todoItemCommand.DeletebyId(id,userId);
         }
         /// <summary>
         /// To update item 
