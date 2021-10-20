@@ -168,17 +168,22 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Patch([FromBody] JsonPatchDocument<Item> patchDoc)
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<Item> patchDoc)
         {
             try
             {
-                var item = new Item();
-                patchDoc.ApplyTo(item, ModelState);
                 var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
                 if (userId == null)
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
+                var item = await _todoItemQueryManager.GetbyId(id, userId ?? default);
+                if(item==null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "No record found for update." });
+                }
+                patchDoc.ApplyTo(item, ModelState);
+                item.Id = id;
                 item.UserId = userId ?? default;
                 var result = await _todoItemCommandManager.Update(item);
                 if (result > 0)

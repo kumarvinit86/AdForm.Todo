@@ -2,6 +2,7 @@
 using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,7 +37,10 @@ namespace Adform.Todo.Manager.Default
         /// <returns>Operation result</returns>
         public async Task<int> Add(Item item)
         {
-            return await _todoItemCommand.Add(_mapper.Map<ToDoItem>(item));
+            var data = _mapper.Map<ToDoItem>(item);
+            data.CreatedDate = DateTime.Now;
+            data.UpdatedDate = DateTime.Now;
+            return await _todoItemCommand.Add(data);
         }
         /// <summary>
         /// To delete item from database

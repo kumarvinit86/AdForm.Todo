@@ -37,7 +37,10 @@ namespace Adform.Todo.Manager.Default
         /// <returns>Operation result</returns>
         public Task<int> Add(ItemList itemList)
         {
-            return _todoListCommand.Add(_mapper.Map<ToDoList>(itemList));
+            var data = _mapper.Map<ToDoList>(itemList);
+            data.CreatedDate = DateTime.Now;
+            data.UpdatedDate = DateTime.Now;
+            return _todoListCommand.Add(data);
         }
         /// <summary>
         /// to delete list from database
