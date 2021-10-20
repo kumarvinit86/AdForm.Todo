@@ -17,7 +17,7 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
             : base()
         {
             ConnectionString = databaseConnection.ToString();
-
+            Database.EnsureCreated();
         }
 
         public string ConnectionString { get; set; }
