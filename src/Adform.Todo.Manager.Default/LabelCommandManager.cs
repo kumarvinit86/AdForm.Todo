@@ -12,13 +12,27 @@ namespace Adform.Todo.Manager.Default
     /// </summary>
     public class LabelCommandManager : ILabelCommandManager
     {
-        public LabelCommandManager(ILabelCommand labelCommand, IMapper mapper)
+        public LabelCommandManager(ILabelCommand labelCommand, 
+            IMapper mapper, 
+            ITodoItemCommandManager todoItemCommandManager, 
+            ITodoListCommandManager todoListCommandManager,
+            ITodoItemQueryManager todoItemQueryManager,
+            ITodoListQueryManager todoListQueryManager
+            )
         {
             _labelCommand = labelCommand;
             _mapper = mapper;
+            _todoItemCommandManager = todoItemCommandManager;
+            _todoListCommandManager = todoListCommandManager;
+            _todoItemQueryManager = todoItemQueryManager;
+            _todoListQueryManager = todoListQueryManager;
         }
         private readonly ILabelCommand _labelCommand;
         private readonly IMapper _mapper;
+        private readonly ITodoItemCommandManager _todoItemCommandManager;
+        private readonly ITodoListCommandManager _todoListCommandManager;
+        private readonly ITodoItemQueryManager _todoItemQueryManager;
+        private readonly ITodoListQueryManager _todoListQueryManager;
         /// <summary>
         /// To add label into database.
         /// </summary>
@@ -33,9 +47,15 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="id">id of label to remove.</param>
         /// <returns>Operation result</returns>
-        public Task<int> DeletebyId(int id)
+        public async Task<int> DeletebyId(int id,int userId)
         {
-            return _labelCommand.DeletebyId(id);
+            var items = await _todoItemQueryManager.Get(userId);
+            await _todoItemCommandManager.DeleteRange(items);
+
+            var lists = await _todoListQueryManager.Get(userId);
+            await _todoListCommandManager.DeleteRange(lists);
+
+            return await _labelCommand.DeletebyId(id);
         }
 
     }

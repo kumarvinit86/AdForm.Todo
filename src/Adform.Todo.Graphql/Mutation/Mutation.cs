@@ -47,7 +47,8 @@ namespace Adform.Todo.Graphql.Mutation
         /// <returns></returns>
         public async Task<int> DeleteLabelbyId(int id)
         {
-            return await _labelCommandManager.DeletebyId(id);
+            var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
+            return await _labelCommandManager.DeletebyId(id, userId ?? default);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace Adform.Todo.Graphql.Mutation
         public async Task<int> UpdateLabeltoItem(int itemId, int labelId)
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
-            return await _todoItemCommandManager.Updatelabel(itemId, labelId,userId??default);
+            return await _todoItemCommandManager.Updatelabel(itemId, labelId, userId ?? default);
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Adform.Todo.Graphql.Mutation
         public async Task<int> UpdateLabeltoItemList(int itemListId, int labelId)
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
-            return await _todoListCommandManager.Updatelabel(itemListId, labelId, userId??default);
+            return await _todoListCommandManager.Updatelabel(itemListId, labelId, userId ?? default);
         }
 
         /// <summary>

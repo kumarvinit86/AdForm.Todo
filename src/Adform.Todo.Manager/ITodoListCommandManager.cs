@@ -1,4 +1,6 @@
 ﻿using Adform.Todo.Dto;
+using Adform.Todo.Model.Entity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager
@@ -10,5 +12,6 @@ namespace Adform.Todo.Manager
         Task<int> Delete(ItemList itemList);
         Task<int> DeletebyId(int id);
         Task<int> Updatelabel(int itemId, int labelId, int userId);
+        Task<int> DeleteRange(List<ToDoList> lists);
     }
 }

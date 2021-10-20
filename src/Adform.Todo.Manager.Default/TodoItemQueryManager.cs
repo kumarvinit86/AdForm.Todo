@@ -1,5 +1,6 @@
 ﻿using Adform.Todo.DomainService;
 using Adform.Todo.Dto;
+using Adform.Todo.Model.Entity;
 using Adform.Todo.Model.Models;
 using AutoMapper;
 using System;
@@ -11,7 +12,7 @@ namespace Adform.Todo.Manager.Default
 {
     /// <summary>
     /// To orchestrate the Query Action of item.
-    /// Tranform Entity to Dto.
+    /// Transform Entity to Dto.
     /// </summary>
     public class TodoItemQueryManager : ITodoItemQueryManager
     {
@@ -73,7 +74,25 @@ namespace Adform.Todo.Manager.Default
         /// <returns></returns>
         public async Task<Item> GetbyId(int Id, int userId)
         {
-            return _mapper.Map<Item>(await _todoItemQuery.GetbyId(Id,userId));
+
+            return (from i in await _todoItemQuery.Get(userId)
+                        join
+                        l in await _labelQueryManager.Get()
+                        on i.LabelId equals l.Id
+                        where i.Id.Equals(Id)
+                        select new Item
+                        {
+                            Id = i.Id,
+                            Name = i.Name,
+                            LabelName = l.Name,
+                            UserId = i.UserId ?? default
+                        }).FirstOrDefault();
+
+        }
+
+        public async Task<List<ToDoItem>> Get(int userId)
+        {
+            return await _todoItemQuery.Get(userId);
         }
     }
 }

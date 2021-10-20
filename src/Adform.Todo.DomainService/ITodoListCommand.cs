@@ -1,4 +1,5 @@
 ﻿using Adform.Todo.Model.Entity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.DomainService
@@ -9,5 +10,6 @@ namespace Adform.Todo.DomainService
         Task<int> Update(ToDoList toDoItem);
         Task<int> Delete(ToDoList toDoItem);
         Task<int> DeletebyId(int id);
+        Task<int> DeleteRange(List<ToDoList> list);
     }
 }

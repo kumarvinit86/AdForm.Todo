@@ -1,5 +1,6 @@
 ﻿using Adform.Todo.Database;
 using Adform.Todo.Model.Entity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -56,5 +57,9 @@ namespace Adform.Todo.DomainService.Default
             return await _commandRepository.Update(toDoItem);
         }
 
+        public async Task<int> DeleteRange(List<ToDoItem> items)
+        {
+            return await _commandRepository.RemoveRange(items);
+        }
     }
 }

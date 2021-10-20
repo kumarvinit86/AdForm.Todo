@@ -3,6 +3,7 @@ using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -101,6 +102,11 @@ namespace Adform.Todo.Manager.Default
                 return await _todoListCommand.Update(list);
             }
 
+        }
+
+        public async Task<int> DeleteRange(List<ToDoList> lists)
+        {
+            return await _todoListCommand.DeleteRange(lists);
         }
     }
 }

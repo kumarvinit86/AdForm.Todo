@@ -1,4 +1,5 @@
 ﻿using Adform.Todo.Dto;
+using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
 using Adform.Todo.Model.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -16,15 +17,20 @@ namespace Adform.Todo.Api.Controllers
     [ApiController]
     public class TodoLabelController : ControllerBase
     {
-        public TodoLabelController(ILabelQueryManager labelQueryManager, ILabelCommandManager labelCommandManager, IDbLogger logger)
+        public TodoLabelController(ILabelQueryManager labelQueryManager, 
+            ILabelCommandManager labelCommandManager, 
+            IDbLogger logger,
+             IJsonWebTokenHandler jsonWebTokenHandler)
         {
             _labelQueryManager = labelQueryManager;
             _labelCommandManager = labelCommandManager;
             _logger = logger;
+            _jsonWebTokenHandler = jsonWebTokenHandler;
         }
 
         private readonly ILabelQueryManager _labelQueryManager;
         private readonly ILabelCommandManager _labelCommandManager;
+        private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
         private readonly IDbLogger _logger;
 
         // GET: todo/<TodolabelController>
@@ -117,7 +123,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _labelCommandManager.DeletebyId(id);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _labelCommandManager.DeletebyId(id, userId??default);
                 if (result > 0)
                 {
                     return Ok(result);

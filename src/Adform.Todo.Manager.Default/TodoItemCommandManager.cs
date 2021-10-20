@@ -102,5 +102,10 @@ namespace Adform.Todo.Manager.Default
             }
 
         }
+
+        public async Task<int> DeleteRange(List<ToDoItem> items)
+        {
+            return await _todoItemCommand.DeleteRange(items);
+        }
     }
 }
