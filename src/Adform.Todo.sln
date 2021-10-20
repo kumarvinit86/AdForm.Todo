@@ -56,7 +56,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adform.Todo.Api.Test", "Adf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adform.Todo.Api", "Adform.Todo.Api\Adform.Todo.Api.csproj", "{53A9B8D1-7173-48A8-9392-8FF5B6629CF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adform.Todo.Essentials", "Adform.Todo.Essentials\Adform.Todo.Essentials.csproj", "{E20CCBA9-8CB6-4F35-B10C-56E5950A91E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adform.Todo.Essentials", "Adform.Todo.Essentials\Adform.Todo.Essentials.csproj", "{E20CCBA9-8CB6-4F35-B10C-56E5950A91E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adform.Todo.Graphql", "Adform.Todo.Graphql\Adform.Todo.Graphql.csproj", "{64037CB0-F23A-4A4B-B6CF-505234CCC2D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -124,6 +126,10 @@ Global
 		{E20CCBA9-8CB6-4F35-B10C-56E5950A91E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E20CCBA9-8CB6-4F35-B10C-56E5950A91E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E20CCBA9-8CB6-4F35-B10C-56E5950A91E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64037CB0-F23A-4A4B-B6CF-505234CCC2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64037CB0-F23A-4A4B-B6CF-505234CCC2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64037CB0-F23A-4A4B-B6CF-505234CCC2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64037CB0-F23A-4A4B-B6CF-505234CCC2D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,6 +153,7 @@ Global
 		{9842D16E-6FB1-4FC0-AE03-2C72B57C32D4} = {64C858EE-FDD4-471E-83C6-65B1AD80F411}
 		{53A9B8D1-7173-48A8-9392-8FF5B6629CF9} = {64C858EE-FDD4-471E-83C6-65B1AD80F411}
 		{E20CCBA9-8CB6-4F35-B10C-56E5950A91E6} = {CEE3639A-9D42-4986-BB1B-CD4ECCAD0D1C}
+		{64037CB0-F23A-4A4B-B6CF-505234CCC2D8} = {64C858EE-FDD4-471E-83C6-65B1AD80F411}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF0E16F2-4158-4AD0-9F9E-B95306FF781F}

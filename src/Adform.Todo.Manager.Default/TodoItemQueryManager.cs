@@ -71,9 +71,9 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<Item> GetbyId(int Id)
+        public async Task<Item> GetbyId(int Id, int userId)
         {
-            return _mapper.Map<Item>(await _todoItemQuery.GetbyId(Id));
+            return _mapper.Map<Item>(await _todoItemQuery.GetbyId(Id,userId));
         }
     }
 }

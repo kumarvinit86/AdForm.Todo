@@ -63,7 +63,7 @@ namespace Adform.Todo.Manager.Default
         public async Task<int> Update(ItemList itemList)
         {
             var todoList = _mapper.Map<ToDoList>(itemList);
-            var data = await _todoListQuery.GetbyId(todoList.Id);
+            var data = await _todoListQuery.GetbyId(todoList.Id,itemList.UserId);
             if (data == null)
             {
                 return 0;
@@ -86,9 +86,9 @@ namespace Adform.Todo.Manager.Default
         /// <param name="itemListId"></param>
         /// <param name="labelId"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Updatelabel(int itemListId, int labelId)
+        public async Task<int> Updatelabel(int itemListId, int labelId, int userId)
         {
-            var list = await _todoListQuery.GetbyId(itemListId);
+            var list = await _todoListQuery.GetbyId(itemListId, userId);
             if (list == null)
             {
                 return 0;

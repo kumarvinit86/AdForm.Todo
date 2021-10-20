@@ -32,3 +32,9 @@ dotnet_diagnostic.S5547.severity = none
 
 # S2971: "IEnumerable" LINQs should be simplified
 dotnet_diagnostic.S2971.severity = none
+
+# CS0618: Type or member is obsolete
+dotnet_diagnostic.CS0618.severity = none
+
+# IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0058.severity = none

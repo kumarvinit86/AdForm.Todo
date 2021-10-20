@@ -27,6 +27,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Adform.Todo.Dto\Adform.Todo.Dto.csproj" />
+	  <ProjectReference Include="..\Adform.Todo.Graphql\Adform.Todo.Graphql.csproj" />
 	  <ProjectReference Include="..\Adform.Todo.Manager.Default\Adform.Todo.Manager.Default.csproj" />
 	  <ProjectReference Include="..\Adform.Todo.Manager\Adform.Todo.Manager.csproj" />
 	  <ProjectReference Include="..\SeriLogger\SeriLogger.DbLogger.csproj" />

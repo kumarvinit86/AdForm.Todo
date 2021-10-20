@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using SeriLogger.DbLogger;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
@@ -47,7 +46,7 @@ namespace Adform.Todo.Api.Controllers
                 var userId= _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
                 if (userId == null)
                 {
-                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
                 var tupleResult = await _todoItemQueryManager.Get(pagingDataRequest,userId ?? default);
                 var result= tupleResult.item;
@@ -77,7 +76,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _todoItemQueryManager.GetbyId(id);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoItemQueryManager.GetbyId(id, userId??default);
                 if (result != null)
                 {
                     return Ok(result);
@@ -126,7 +130,7 @@ namespace Adform.Todo.Api.Controllers
             }
         }
 
-        // Patch todo/<TodoItemController>
+        // Put todo/<TodoItemController>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
@@ -135,7 +139,14 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                item.UserId = userId ?? default;
                 var result = await _todoItemCommandManager.Update(item);
+
                 if (result > 0)
                 {
                     return Ok(result);
@@ -163,6 +174,12 @@ namespace Adform.Todo.Api.Controllers
             {
                 var item = new Item();
                 patchDoc.ApplyTo(item, ModelState);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                item.UserId = userId ?? default;
                 var result = await _todoItemCommandManager.Update(item);
                 if (result > 0)
                 {
@@ -180,7 +197,7 @@ namespace Adform.Todo.Api.Controllers
             }
         }
 
-        // Patch todo/<TodoItemController>
+        // Put todo/<TodoItemController>
         [HttpPut("putupdatelable")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
@@ -189,7 +206,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _todoItemCommandManager.Updatelabel(itemId, lableId);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoItemCommandManager.Updatelabel(itemId, lableId, userId??default);
                 if (result > 0)
                 {
                     return Ok(result);

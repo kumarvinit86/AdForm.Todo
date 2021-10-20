@@ -62,10 +62,5 @@ namespace Adform.Todo.Database.Sql
                 .AsQueryable()
                 .ToListAsync();
         }
-
-        void IDisposable.Dispose()
-        {
-            TodoDatabase.Dispose();
-        }
     }
 }

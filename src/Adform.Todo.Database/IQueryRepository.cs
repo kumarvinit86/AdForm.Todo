@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Adform.Todo.Database
 {
-    public interface IQueryRepository<TEntity> : IDisposable where TEntity : class
+    public interface IQueryRepository<TEntity> where TEntity : class
 	{
 		DbContext TodoDatabase { get; set; }
 		DbSet<TEntity> Entities { get; set; }

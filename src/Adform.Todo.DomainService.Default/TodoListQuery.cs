@@ -30,9 +30,9 @@ namespace Adform.Todo.DomainService.Default
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<ToDoList> GetbyId(int Id)
+        public async Task<ToDoList> GetbyId(int id,int userId)
         {
-            return await _queryRepository.FindById(Id);
+            return await Task.Run(() => { return _queryRepository.Entities.Where(x => x.UserId == userId && x.Id == id).FirstOrDefault(); });
         }
     }
 }

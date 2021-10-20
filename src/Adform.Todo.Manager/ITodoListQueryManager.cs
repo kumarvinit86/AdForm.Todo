@@ -9,6 +9,6 @@ namespace Adform.Todo.Manager
     public interface ITodoListQueryManager
     {
         Task<ItemListPaged> Get(PagingDataRequest pagingData, int userId);
-        Task<ItemList> GetbyId(int Id);
+        Task<ItemList> GetbyId(int id, int userId);
     }
 }

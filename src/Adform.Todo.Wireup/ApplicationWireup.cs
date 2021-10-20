@@ -16,6 +16,10 @@ using Adform.Todo.DomainService;
 using Adform.Todo.Manager;
 using Adform.Todo.Manager.Default;
 using Adform.Todo.Essentials.Authentication;
+using Adform.Todo.GraphQl.Query;
+using HotChocolate;
+using Adform.Todo.Api.GraphQl.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace Adform.Todo.Wireup
 {
@@ -36,12 +40,18 @@ namespace Adform.Todo.Wireup
                     .AddControllerActivation();
             });
             InitializeContainer(configuration);
+            _services.AddGraphQL(s => SchemaBuilder.New()
+                      .AddServices(s)
+                      .AddType<LabelType>()
+                      .AddQueryType<Query>()
+                  //.AddAuthorizeDirectiveType()
+                  .Create());
         }
 
         public static void Configure(IApplicationBuilder app)
         {
             app.UseSimpleInjector(Container);
-            AutoMapperConfiguration.ConfigureAutomapper(Container);
+            Container.ConfigureAutomapper();
             Container.Verify();
         }
 
@@ -97,6 +107,9 @@ namespace Adform.Todo.Wireup
             Container.Register<ICommandRepository<User>, CommandRepository<User>>(Lifestyle.Scoped);
             Container.Register<IQueryRepository<User>, QueryRepository<User>>(Lifestyle.Scoped);
 
+            Container.Register<Query, Query>(Lifestyle.Transient);
+
+            Container.Register<IHttpContextAccessor, HttpContextAccessor>(Lifestyle.Singleton);
 
 
         }

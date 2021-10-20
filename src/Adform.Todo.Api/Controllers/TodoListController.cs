@@ -47,7 +47,7 @@ namespace Adform.Todo.Api.Controllers
                 var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
                 if (userId == null)
                 {
-                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
                 var tupleResult = await _todoListQueryManager.Get(pagingDataRequest, userId ?? default);
                 List<ItemList> result = tupleResult.item;
@@ -77,7 +77,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _todoListQueryManager.GetbyId(id);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoListQueryManager.GetbyId(id, userId??default);
                 if (result != null)
                 {
                     return Ok(result);
@@ -106,7 +111,7 @@ namespace Adform.Todo.Api.Controllers
                 var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
                 if (userId == null)
                 {
-                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
                 itemList.UserId = userId ?? default;
                 var result = await _todoListCommandManager.Add(itemList);
@@ -135,6 +140,13 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                itemList.UserId = userId??default;
+
                 var result = await _todoListCommandManager.Update(itemList);
                 if (result > 0)
                 {
@@ -163,6 +175,12 @@ namespace Adform.Todo.Api.Controllers
             {
                 var itemList = new ItemList();
                 patchDoc.ApplyTo(itemList, ModelState);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                itemList.UserId = userId ?? default;
                 var result = await _todoListCommandManager.Update(itemList);
                 if (result > 0)
                 {
@@ -189,7 +207,12 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _todoListCommandManager.Updatelabel(itemId, labelId);
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoListCommandManager.Updatelabel(itemId, labelId, userId??default);
                 if (result > 0)
                 {
                     return Ok(result);
