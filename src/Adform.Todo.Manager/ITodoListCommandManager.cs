@@ -7,8 +7,8 @@ namespace Adform.Todo.Manager
 {
     public interface ITodoListCommandManager
     {
-        Task<int> Add(ItemList itemList);
-        Task<int> Update(ItemList itemList);
+        Task<int> Add(ItemListRequest itemList);
+        Task<int> Update(ItemListRequest itemList);
         Task<int> Delete(ItemList itemList);
         Task<int> DeletebyId(int id,int userId);
         Task<int> Updatelabel(int itemId, int labelId, int userId);

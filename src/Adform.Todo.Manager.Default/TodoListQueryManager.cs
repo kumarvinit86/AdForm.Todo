@@ -100,7 +100,17 @@ namespace Adform.Todo.Manager.Default
             return list;
         }
 
-        public async Task<List<ToDoList>> Get(int userId)
+        /// <summary>
+        /// fetch todolist by id for patch
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<ItemListRequest> GetbyIdforPatch(int id, int userId)
+        {
+            return _mapper.Map<ItemListRequest>(await GetbyId(id, userId));
+        }
+
+            public async Task<List<ToDoList>> Get(int userId)
         {
             return await _todoListQuery.Get(userId);
         }

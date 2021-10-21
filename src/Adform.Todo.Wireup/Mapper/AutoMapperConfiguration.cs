@@ -14,6 +14,7 @@ namespace Adform.Todo.Wireup.Mapper
             mapperConfigurationExpression.AddProfile(new TodoListProfile());
             mapperConfigurationExpression.AddProfile(new UserProfile());
             mapperConfigurationExpression.AddProfile(new ListItemProfile());
+            mapperConfigurationExpression.AddProfile(new ItemListRequestProfile());            
             var mapperConfiguration = new MapperConfiguration(mapperConfigurationExpression);
             container.RegisterInstance(mapperConfiguration);
             container.RegisterInstance(mapperConfiguration.CreateMapper(container.GetInstance));

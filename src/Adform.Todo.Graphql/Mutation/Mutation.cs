@@ -115,7 +115,7 @@ namespace Adform.Todo.Graphql.Mutation
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns></returns>
-        public async Task<int> AddToDoList(ItemList itemList)
+        public async Task<int> AddToDoList(ItemListRequest itemList)
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             itemList.UserId = userId ?? default;
@@ -139,7 +139,7 @@ namespace Adform.Todo.Graphql.Mutation
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns></returns>
-        public async Task<int> UpdateToDoList(ItemList itemList)
+        public async Task<int> UpdateToDoList(ItemListRequest itemList)
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             itemList.UserId = userId ?? default;

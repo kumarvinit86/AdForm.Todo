@@ -24,8 +24,8 @@ namespace Adform.Todo.Api.SwaggerConfig
                 Properties = new Dictionary<string, OpenApiSchema>
             {
                 {"op", new OpenApiSchema{ Type = "string" } },
-                {"value", new OpenApiSchema{ Type = "string"} },
-                {"path", new OpenApiSchema{ Type = "string" } }
+                {"path", new OpenApiSchema{ Type = "/string" } },
+                {"value", new OpenApiSchema{ Type = "string"} }
             }
             });
 
