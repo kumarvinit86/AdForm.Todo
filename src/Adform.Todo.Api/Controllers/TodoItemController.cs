@@ -233,6 +233,37 @@ namespace Adform.Todo.Api.Controllers
             }
         }
 
+        // Put todo/<TodoItemController>
+        [HttpPut("putupdatelist")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PutUpdateList(int itemId, int listId)
+        {
+            try
+            {
+                var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
+                if (userId == null)
+                {
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
+                }
+                var result = await _todoItemCommandManager.UpdateList(itemId, listId, userId ?? default);
+                if (result > 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(new ApiResponse() { Status = true, Message = "Record Not Updated." });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return BadRequest(new ApiResponse() { Status = false, Message = ex.Message });
+            }
+        }
+
         // DELETE todo/<TodoItemController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

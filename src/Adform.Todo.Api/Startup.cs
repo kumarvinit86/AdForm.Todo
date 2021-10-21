@@ -105,7 +105,7 @@ namespace Adform.Todo.Service
                             new string[] {}
                             }
                         });
-
+                swagger.DocumentFilter<JsonPatchDocumentFilter>();
             });
             services.AddSwaggerExamplesFromAssemblyOf<AppUserExample>();
             ApplicationWireup.ConfigureServices(services, Configuration);

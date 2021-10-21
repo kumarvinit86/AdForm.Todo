@@ -25,6 +25,7 @@ namespace Adform.Todo.Manager.Default
         private readonly ITodoItemQuery _todoItemQuery;
         private readonly IMapper _mapper;
         private readonly ILabelQueryManager _labelQueryManager;
+
         /// <summary>
         /// to fetch the list of item of a user
         /// with the pagination.
@@ -34,19 +35,8 @@ namespace Adform.Todo.Manager.Default
         /// <returns>Tuple of list of item and the pagination details</returns>
         public async Task<ItemPaged> Get(PagingDataRequest pagingData, int userId)
         {
+            var data = _mapper.Map<List<Item>>(await GetItem(userId));
 
-            var data = (from i in await _todoItemQuery.Get(userId)
-                       join
-                       l in await _labelQueryManager.Get()
-                       on i.LabelId equals l.Id
-                       select new Item
-                       {
-                           Id = i.Id,
-                           Name = i.Name,
-                           LabelName = l.Name,
-                           UserId = i.UserId ?? default
-                       }).ToList();
- 
             int count = data.Count;
             int CurrentPage = pagingData.PageNumber;
             int PageSize = pagingData.PageSize;
@@ -64,9 +54,9 @@ namespace Adform.Todo.Manager.Default
                 PreviousPage=previousPage,
                 NextPage=nextPage
             };
-
             return new ItemPaged { item = items, pagingData = pageMetadata };
         }
+
         /// <summary>
         /// fetch item by id
         /// </summary>
@@ -87,6 +77,23 @@ namespace Adform.Todo.Manager.Default
                             LabelName = l.Name,
                             UserId = i.UserId ?? default
                         }).FirstOrDefault();
+
+        }
+
+        public async Task<List<ListItem>> GetItem(int userId)
+        {
+            return (from i in await _todoItemQuery.Get(userId)
+                    join
+                    l in await _labelQueryManager.Get()
+                    on i.LabelId equals l.Id
+                    select new ListItem
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        LabelName = l.Name,
+                        UserId = i.UserId ?? default,
+                        ListId=i.ToDoListId??default
+                    }).ToList();
 
         }
 
