@@ -110,7 +110,7 @@ namespace Adform.Todo.Api.Controllers
                 var userId = _jsonWebTokenHandler.GetUserIdfromToken(HttpContext.Request.Headers["Authorization"].ToString());
                 if (userId == null)
                 {
-                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is reuired" });
+                    return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
                 item.UserId = userId ?? default;
                 var result = await _todoItemCommandManager.Add(item);
