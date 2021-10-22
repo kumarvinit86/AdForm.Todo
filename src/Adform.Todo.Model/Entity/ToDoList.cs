@@ -18,10 +18,10 @@ namespace Adform.Todo.Model.Entity
         public DateTime? UpdatedDate { get; set; }
 
         [ForeignKey("LabelId")]
-        public int? LabelId { get; set; } = 1;
+        public int? LabelId { get; set; }
 
         [ForeignKey("UserId")]
-        public int? UserId { get; set; } = 1;
+        public int? UserId { get; set; }
         public virtual TodoLabel? Label { get; set; }
         public virtual User? Author { get; set; }
         public virtual List<ToDoItem>? TodoItems { get; set; }
