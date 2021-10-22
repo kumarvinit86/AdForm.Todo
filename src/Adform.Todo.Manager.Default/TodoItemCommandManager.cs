@@ -106,6 +106,25 @@ namespace Adform.Todo.Manager.Default
             }
 
         }
+        /// <summary>
+        /// update list to item
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="listId"></param>
+        /// <returns>Operation result</returns>
+        public async Task<int> UpdateList(int itemId, int listId, int userId)
+        {
+            var item = await _todoItemQuery.GetbyId(itemId, userId);
+            if (item == null)
+            {
+                return 0;
+            }
+            else
+            {
+                item.ToDoListId = listId;
+                return await _todoItemCommand.Update(item);
+            }
+        }
 
         public async Task<int> DeleteRange(List<ToDoItem> items)
         {

@@ -104,7 +104,7 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] ItemList itemList)
+        public async Task<IActionResult> Post([FromBody] ItemListRequest itemList)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Put([FromBody] ItemList itemList)
+        public async Task<IActionResult> Put([FromBody] ItemListRequest itemList)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Patch(int id,[FromBody] JsonPatchDocument<ItemList> patchDoc)
+        public async Task<IActionResult> Patch(int id,[FromBody] JsonPatchDocument<ItemListRequest> patchDoc)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var itemList = await _todoListQueryManager.GetbyId(id, userId ?? default);
+                var itemList = await _todoListQueryManager.GetbyIdforPatch(id, userId ?? default);
                 if (itemList == null)
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "No record found for update." });

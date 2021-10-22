@@ -25,6 +25,7 @@ namespace Adform.Todo.DomainService.Default
         {
             return await Task.Run(() => { return _queryRepository.Entities.Where(x => x.UserId == userId).AsQueryable().ToList(); }); 
         }
+
         /// <summary>
         /// fetch todolist by id
         /// </summary>

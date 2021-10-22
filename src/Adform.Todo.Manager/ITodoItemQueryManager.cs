@@ -11,5 +11,6 @@ namespace Adform.Todo.Manager
         Task<ItemPaged> Get(PagingDataRequest pagingData, int userId);
         Task<List<ToDoItem>> Get(int userId);
         Task<Item> GetbyId(int Id, int userId);
+        Task<List<ListItem>> GetItem(int userId);
     }
 }

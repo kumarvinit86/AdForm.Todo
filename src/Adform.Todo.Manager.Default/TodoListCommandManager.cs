@@ -35,7 +35,7 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns>Operation result</returns>
-        public Task<int> Add(ItemList itemList)
+        public Task<int> Add(ItemListRequest itemList)
         {
             var data = _mapper.Map<ToDoList>(itemList);
             data.CreatedDate = DateTime.Now;
@@ -65,7 +65,7 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Update(ItemList itemList)
+        public async Task<int> Update(ItemListRequest itemList)
         {
             var todoList = _mapper.Map<ToDoList>(itemList);
             var data = await _todoListQuery.GetbyId(todoList.Id,itemList.UserId);

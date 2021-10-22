@@ -16,15 +16,22 @@ namespace Adform.Todo.Manager.Default
     /// </summary>
     public class TodoListQueryManager : ITodoListQueryManager
     {
-        public TodoListQueryManager(ITodoListQuery todoListQuery, IMapper mapper, ILabelQueryManager labelQueryManager)
+        public TodoListQueryManager(ITodoListQuery todoListQuery, 
+            IMapper mapper, 
+            ILabelQueryManager labelQueryManager,
+            ITodoItemQueryManager todoItemQueryManager)
         {
             _todoListQuery = todoListQuery;
             _mapper = mapper;
             _labelQueryManager = labelQueryManager;
+            _todoItemQueryManager = todoItemQueryManager;
+
         }
+
         private readonly ITodoListQuery _todoListQuery;
         private readonly IMapper _mapper;
         private readonly ILabelQueryManager _labelQueryManager;
+        private readonly ITodoItemQueryManager _todoItemQueryManager;
         /// <summary>
         /// to fetch the list of todolist of a user
         /// with the pagination.
@@ -38,20 +45,25 @@ namespace Adform.Todo.Manager.Default
                         join
                         l in await _labelQueryManager.Get()
                         on i.LabelId equals l.Id
+                        join
+                        t in await _todoItemQueryManager.GetItem(userId)
+                        on i.Id equals t.ListId into ti
+                        from p in ti.DefaultIfEmpty()
                         select new ItemList
                         {
                             Id = i.Id,
                             Name = i.Name,
                             LabelName = l.Name,
-                            UserId = i.UserId ?? default
-                        }).ToList();
+                            UserId = i.UserId ?? default,
+                            ChildItems = _mapper.Map<List<Item>>(ti)
+                        }).GroupBy(p => p.Id).Select(g => g.First()).ToList();
 
             int count = data.Count;
             int CurrentPage = pagingData.PageNumber;
             int PageSize = pagingData.PageSize;
             int TotalCount = count;
             int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
-            var items = data.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
+            var lists = data.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
             var previousPage = CurrentPage > 1 ? "Yes" : "No";
             var nextPage = CurrentPage < TotalPages ? "Yes" : "No";
             var pageMetadata = new PagingDataResponse
@@ -63,7 +75,7 @@ namespace Adform.Todo.Manager.Default
                 PreviousPage = previousPage,
                 NextPage = nextPage
             };
-            return new ItemListPaged { item = items, pagingData = pageMetadata };
+            return new ItemListPaged { item = lists, pagingData = pageMetadata };
         }
 
         /// <summary>
@@ -73,21 +85,32 @@ namespace Adform.Todo.Manager.Default
         /// <returns></returns>
         public async Task<ItemList> GetbyId(int id, int userId)
         {
-            return (from i in await _todoListQuery.Get(userId)
-                    join
-                    l in await _labelQueryManager.Get()
-                    on i.LabelId equals l.Id
-                    where i.Id.Equals(id)
-                    select new ItemList
-                    {
-                        Id = i.Id,
-                        Name = i.Name,
-                        LabelName = l.Name,
-                        UserId = i.UserId ?? default
-                    }).FirstOrDefault();
+            var todoList = await _todoListQuery.GetbyId(id, userId);
+            var label = await _labelQueryManager.GetbyId(todoList.LabelId ?? default);
+            var items = _mapper.Map<List<Item>>(await _todoItemQueryManager.GetItem(userId));
+            var list = _mapper.Map<ItemList>(todoList);
+            if (label != null)
+            {
+                list.LabelName = label.Name;
+            }
+            if (items != null)
+            {
+                list.ChildItems = items;
+            }
+            return list;
         }
 
-        public async Task<List<ToDoList>> Get(int userId)
+        /// <summary>
+        /// fetch todolist by id for patch
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<ItemListRequest> GetbyIdforPatch(int id, int userId)
+        {
+            return _mapper.Map<ItemListRequest>(await GetbyId(id, userId));
+        }
+
+            public async Task<List<ToDoList>> Get(int userId)
         {
             return await _todoListQuery.Get(userId);
         }

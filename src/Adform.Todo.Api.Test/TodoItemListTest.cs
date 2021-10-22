@@ -72,7 +72,7 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var shouldreturn = fixture.Create<Task<int>>();
-            var addParameter = fixture.Create<ItemList>();
+            var addParameter = fixture.Create<ItemListRequest>();
             todoListCommandManager.Setup(x => x.Add(addParameter)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoListController(null,
@@ -97,7 +97,7 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var shouldreturn = fixture.Create<Task<int>>();
-            var addParameter = fixture.Create<ItemList>();
+            var addParameter = fixture.Create<ItemListRequest>();
             todoListCommandManager.Setup(x => x.Update(addParameter)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoListController(null,
