@@ -27,7 +27,16 @@ Assignment for Adform Client to create Todo Service.
 
 * Build the solution 
 * Start application by F5
+### under diagram directory we can see the two level C4 modeling walkthrough of application architect.
+Diagrams are created in `.drawio` format. To view/open the diagram please follow the below steps.
+* Add `Draw.io Integration` extension to VS Code. 
+![image](https://user-images.githubusercontent.com/15344216/138424800-3b294fc9-7e9e-48b6-9c2e-655365fda44d.png)
+
+* Open the diagrams in VS code. 
+> Note: These diagrams can be drilled to next level 3 and 4. But for now we only have 2 levels
+
 ## Note: Use Sonarlint as code analysis tool. code ruleset file is already updated into the project, so just install sonarlint extension.
+
 
 # Graphql query Examples : 
 
