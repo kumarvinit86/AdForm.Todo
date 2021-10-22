@@ -1,11 +1,8 @@
 ﻿using Adform.Todo.Dto;
-using Adform.Todo.Manager;
-using System.Linq;
-using SimpleInjector;
-using Microsoft.AspNetCore.Mvc;
 using Adform.Todo.Essentials.Authentication;
-using Adform.Todo.Model.Models;
+using Adform.Todo.Manager;
 using Microsoft.AspNetCore.Http;
+using SimpleInjector;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Graphql.Mutation
@@ -61,6 +58,18 @@ namespace Adform.Todo.Graphql.Mutation
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             return await _todoItemCommandManager.Updatelabel(itemId, labelId, userId ?? default);
+        }
+
+        /// <summary>
+        /// Mutation to assign label to item
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <param name="listId"></param>
+        /// <returns></returns>
+        public async Task<int> UpdateListtoItem(int itemId, int listId)
+        {
+            var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
+            return await _todoItemCommandManager.UpdateList(itemId, listId, userId ?? default);
         }
 
         /// <summary>
