@@ -33,7 +33,7 @@ Diagrams are created in `.drawio` format. To view/open the diagram please follow
 ![image](https://user-images.githubusercontent.com/15344216/138424800-3b294fc9-7e9e-48b6-9c2e-655365fda44d.png)
 
 * Open the diagrams in VS code. 
-Note: These diagrams can be drilled to next level 3 and 4. But for now we only have 2 levels
+> Note: These diagrams can be drilled to next level 3 and 4. But for now we only have 2 levels
 
 ## Note: Use Sonarlint as code analysis tool. code ruleset file is already updated into the project, so just install sonarlint extension.
 
