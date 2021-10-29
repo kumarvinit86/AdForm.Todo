@@ -14,7 +14,7 @@ namespace Adform.Todo.Model.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public virtual ToDoItem? TodoItem { get; set; }
-        public virtual ToDoList? TodoList { get; set; }
+        public virtual TodoItem? TodoItem { get; set; }
+        public virtual TodoList? TodoList { get; set; }
     }
 }

@@ -99,10 +99,10 @@ namespace Adform.Todo.Wireup
             Container.Register<IUserQueryManager, UserQueryManager>(Lifestyle.Transient);
             Container.Register<IUserCommandManager, UserCommandManager>(Lifestyle.Transient);
 
-            Container.Register<ICommandRepository<ToDoItem>, CommandRepository<ToDoItem>>(Lifestyle.Scoped);
-            Container.Register<IQueryRepository<ToDoItem>, QueryRepository<ToDoItem>>(Lifestyle.Scoped);
-            Container.Register<ICommandRepository<ToDoList>, CommandRepository<ToDoList>>(Lifestyle.Scoped);
-            Container.Register<IQueryRepository<ToDoList>, QueryRepository<ToDoList>>(Lifestyle.Scoped);
+            Container.Register<ICommandRepository<TodoItem>, CommandRepository<TodoItem>>(Lifestyle.Scoped);
+            Container.Register<IQueryRepository<TodoItem>, QueryRepository<TodoItem>>(Lifestyle.Scoped);
+            Container.Register<ICommandRepository<TodoList>, CommandRepository<TodoList>>(Lifestyle.Scoped);
+            Container.Register<IQueryRepository<TodoList>, QueryRepository<TodoList>>(Lifestyle.Scoped);
             Container.Register<ICommandRepository<TodoLabel>, CommandRepository<TodoLabel>>(Lifestyle.Scoped);
             Container.Register<IQueryRepository<TodoLabel>, QueryRepository<TodoLabel>>(Lifestyle.Scoped);
             Container.Register<ICommandRepository<User>, CommandRepository<User>>(Lifestyle.Scoped);

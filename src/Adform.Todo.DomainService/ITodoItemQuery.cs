@@ -6,7 +6,7 @@ namespace Adform.Todo.DomainService
 {
     public interface ITodoItemQuery
     {
-        Task<List<ToDoItem>> Get(int userId);
-        Task<ToDoItem> GetbyId(int Id, int userId);
+        Task<List<TodoItem>> Get(int userId);
+        Task<TodoItem> GetbyId(int Id, int userId);
     }
 }

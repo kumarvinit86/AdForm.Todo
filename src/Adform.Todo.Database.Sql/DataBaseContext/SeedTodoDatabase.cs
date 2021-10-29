@@ -50,8 +50,8 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
 
         public void SeedTodoList()
         {
-            _modelBuilder.Entity<ToDoList>()
-                   .ToTable("ToDoLists").HasData(new ToDoList()
+            _modelBuilder.Entity<TodoList>()
+                   .ToTable("ToDoLists").HasData(new TodoList()
                    {
                        Id = 1,
                        Name = "None",
@@ -67,8 +67,8 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         /// </summary>
         public void SeedTodoItem()
         {
-            _modelBuilder.Entity<ToDoItem>()
-                   .ToTable("ToDoItems").HasData(new ToDoItem()
+            _modelBuilder.Entity<TodoItem>()
+                   .ToTable("ToDoItems").HasData(new TodoItem()
                    {
                        Id = 1,
                        Name = "None",

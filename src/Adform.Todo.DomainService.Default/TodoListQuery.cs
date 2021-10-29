@@ -11,19 +11,20 @@ namespace Adform.Todo.DomainService.Default
     /// </summary>
     public class TodoListQuery : ITodoListQuery
     {
-        public TodoListQuery(IQueryRepository<ToDoList> queryRepository)
+        public TodoListQuery(IQueryRepository<TodoList> queryRepository)
         {
             _queryRepository = queryRepository;
         }
-        private readonly IQueryRepository<ToDoList> _queryRepository;
+        private readonly IQueryRepository<TodoList> _queryRepository;
         /// <summary>
         /// fetch the list of todolist of a user
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>list of item</returns>
-        public async Task<List<ToDoList>> Get(int userId)
+        public async Task<List<TodoList>> Get(int userId)
         {
-            return await Task.Run(() => { return _queryRepository.Entities.Where(x => x.UserId == userId).AsQueryable().ToList(); }); 
+            string[] includeParam = { "Label", "TodoItems" };
+            return (await _queryRepository.FillEntities(includeParam)).Where(x => x.UserId == userId).AsQueryable().ToList();
         }
 
         /// <summary>
@@ -31,9 +32,10 @@ namespace Adform.Todo.DomainService.Default
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<ToDoList> GetbyId(int id,int userId)
+        public async Task<TodoList> GetbyId(int id, int userId)
         {
-            return await Task.Run(() => { return _queryRepository.Entities.Where(x => x.UserId == userId && x.Id == id).FirstOrDefault(); });
+            string[] includeParam = { "Label", "TodoItems" };
+            return (await _queryRepository.FillEntities(includeParam)).Where(x => x.UserId == userId && x.Id == id).FirstOrDefault();
         }
     }
 }

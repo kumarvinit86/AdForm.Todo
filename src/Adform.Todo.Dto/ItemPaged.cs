@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Adform.Todo.Dto
 {
-    public class ItemPaged
+    public class ItemPaged<TDto>
     {
-        public List<Item> item { get; set; }
+        public List<TDto> data { get; set; }
         public PagingDataResponse pagingData { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Adform.Todo.DomainService;
-using Adform.Todo.Dto;
 using Adform.Todo.Essentials;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
@@ -12,14 +11,12 @@ namespace Adform.Todo.Manager.Default
     /// </summary>
     public class UserQueryManager : IUserQueryManager
     {
-        public UserQueryManager(IUserQuery userQuery, IMapper mapper, IConfiguration configuration)
+        public UserQueryManager(IUserQuery userQuery, IConfiguration configuration)
         {
             _userQuery = userQuery;
-            _mapper = mapper;
             _configuration = configuration;
         }
         private readonly IUserQuery _userQuery;
-        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
         /// <summary>
@@ -27,10 +24,10 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public User ValidateUser(AppUser appUser)
+        public User ValidateUser(User user)
         {
-            appUser.Password = new CryptoHandler(_configuration).Encrypt(appUser.Password);
-            return _userQuery.ValidateUser(_mapper.Map<User>(appUser));
+            user.Password = new CryptoHandler(_configuration).Encrypt(user.Password);
+            return _userQuery.ValidateUser(user);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Adform.Todo.DomainService;
-using Adform.Todo.Dto;
 using Adform.Todo.Essentials;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
@@ -29,10 +28,10 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="appUser"></param>
         /// <returns></returns>
-        public async Task<int> Add(AppUser appUser)
+        public async Task<int> Add(User user)
         {
-            appUser.Password = new CryptoHandler(_configuration).Encrypt(appUser.Password);
-            return await _userCommand.Add(_mapper.Map<User>(appUser));
+            user.Password = new CryptoHandler(_configuration).Encrypt(user.Password);
+            return await _userCommand.Add(user);
         }
     }
 }

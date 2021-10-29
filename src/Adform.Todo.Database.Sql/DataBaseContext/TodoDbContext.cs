@@ -36,27 +36,27 @@ namespace Adform.Todo.Database.Sql.DataBaseContext
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ToDoItem>()
+            modelBuilder.Entity<TodoItem>()
                     .ToTable("ToDoItems").HasOne(t => t.Author).WithOne(u => u.TodoItem);
-            modelBuilder.Entity<ToDoItem>().HasIndex(x => x.UserId).IsUnique(false);
-            modelBuilder.Entity<ToDoItem>().HasIndex(x => x.LabelId).IsUnique(false);
-            modelBuilder.Entity<ToDoItem>().HasIndex(x => x.ToDoListId).IsUnique(false);
-            modelBuilder.Entity<ToDoItem>()
+            modelBuilder.Entity<TodoItem>().HasIndex(x => x.UserId).IsUnique(false);
+            modelBuilder.Entity<TodoItem>().HasIndex(x => x.LabelId).IsUnique(false);
+            modelBuilder.Entity<TodoItem>().HasIndex(x => x.ToDoListId).IsUnique(false);
+            modelBuilder.Entity<TodoItem>()
                     .ToTable("ToDoItems").HasOne(t => t.ToDoItemList).WithMany(l => l.TodoItems);
-            modelBuilder.Entity<ToDoItem>()
+            modelBuilder.Entity<TodoItem>()
                     .ToTable("ToDoItems").HasOne(t => t.Label).WithOne(l => l.TodoItem).OnDelete(DeleteBehavior.ClientCascade);
             modelBuilder.Entity<User>()
                    .ToTable("Users");
             modelBuilder.Entity<TodoLabel>()
                   .ToTable("Labels");
 
-            modelBuilder.Entity<ToDoList>()
+            modelBuilder.Entity<TodoList>()
                   .ToTable("ToDoLists").HasOne(t => t.Author).WithOne(u => u.TodoList);
-            modelBuilder.Entity<ToDoList>()
+            modelBuilder.Entity<TodoList>()
                 .ToTable("ToDoLists").HasOne(t => t.Label).WithOne(u => u.TodoList).OnDelete(DeleteBehavior.ClientCascade);
 
-            modelBuilder.Entity<ToDoList>().HasIndex(x => x.UserId).IsUnique(false);
-            modelBuilder.Entity<ToDoList>().HasIndex(x => x.LabelId).IsUnique(false);
+            modelBuilder.Entity<TodoList>().HasIndex(x => x.UserId).IsUnique(false);
+            modelBuilder.Entity<TodoList>().HasIndex(x => x.LabelId).IsUnique(false);
 
             var seeds = new SeedTodoDatabase(modelBuilder);
             seeds.SeedUser();

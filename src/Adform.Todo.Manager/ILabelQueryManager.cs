@@ -1,4 +1,5 @@
-﻿using Adform.Todo.Dto;
+﻿
+using Adform.Todo.Model.Entity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace Adform.Todo.Manager
 {
     public interface ILabelQueryManager
     {
-        Task<List<Label>> Get();
-        Task<Label> GetbyId(int Id);
+        Task<List<TodoLabel>> Get();
+        Task<TodoLabel> GetbyId(int Id);
     }
 }

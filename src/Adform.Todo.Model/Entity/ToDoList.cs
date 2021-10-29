@@ -9,7 +9,7 @@ namespace Adform.Todo.Model.Entity
     /// Class to hold information about todolist
     /// </summary>
     [Table("ToDoLists")]
-    public class ToDoList 
+    public class TodoList 
     {
         [Key]
         public int Id { get; set; }
@@ -24,6 +24,6 @@ namespace Adform.Todo.Model.Entity
         public int? UserId { get; set; }
         public virtual TodoLabel? Label { get; set; }
         public virtual User? Author { get; set; }
-        public virtual List<ToDoItem>? TodoItems { get; set; }
+        public virtual List<TodoItem>? TodoItems { get; set; }
     }
 }

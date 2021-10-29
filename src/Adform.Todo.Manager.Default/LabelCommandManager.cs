@@ -1,5 +1,4 @@
 ﻿using Adform.Todo.DomainService;
-using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
 using System.Linq;
@@ -14,7 +13,6 @@ namespace Adform.Todo.Manager.Default
     public class LabelCommandManager : ILabelCommandManager
     {
         public LabelCommandManager(ILabelCommand labelCommand,
-            IMapper mapper,
             ITodoItemCommandManager todoItemCommandManager,
             ITodoListCommandManager todoListCommandManager,
             ITodoItemQueryManager todoItemQueryManager,
@@ -22,14 +20,12 @@ namespace Adform.Todo.Manager.Default
             )
         {
             _labelCommand = labelCommand;
-            _mapper = mapper;
             _todoItemCommandManager = todoItemCommandManager;
             _todoListCommandManager = todoListCommandManager;
             _todoItemQueryManager = todoItemQueryManager;
             _todoListQueryManager = todoListQueryManager;
         }
         private readonly ILabelCommand _labelCommand;
-        private readonly IMapper _mapper;
         private readonly ITodoItemCommandManager _todoItemCommandManager;
         private readonly ITodoListCommandManager _todoListCommandManager;
         private readonly ITodoItemQueryManager _todoItemQueryManager;
@@ -39,9 +35,9 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="label">Single object of label.</param>
         /// <returns>Operation result</returns>
-        public Task<int> Add(Label label)
+        public Task<int> Add(TodoLabel label)
         {
-            return _labelCommand.Add(_mapper.Map<TodoLabel>(label));
+            return _labelCommand.Add(label);
         }
         /// <summary>
         /// To remove label into database.
