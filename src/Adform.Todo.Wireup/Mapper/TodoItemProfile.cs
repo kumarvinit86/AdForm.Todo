@@ -13,7 +13,7 @@ namespace Adform.Todo.Wireup.Mapper
         }
         private void MapRequest()
         {
-            CreateMap<Item, ToDoItem>()
+            CreateMap<Item, TodoItem>()
                 .ForMember(to => to.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(to => to.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(to => to.Label, opt => opt.Ignore())
@@ -26,7 +26,7 @@ namespace Adform.Todo.Wireup.Mapper
 
         private void MapResponse()
         {
-            CreateMap<ToDoItem, Item>()
+            CreateMap<TodoItem, Item>()
                 .ForMember(to => to.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(to => to.Name, opt => opt.MapFrom(src => src.Name))
                 .ForPath(to => to.LabelName, opt => opt.MapFrom(src => src.Label.Name)).ReverseMap();

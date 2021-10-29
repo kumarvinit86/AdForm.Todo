@@ -1,20 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-	
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="HotChocolate.AspNetCore" Version="11.2.2" />
 		<PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="SimpleInjector" Version="5.1.0" />
+		<PackageReference Include="SimpleInjector" Version="5.1.0" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Adform.Todo.Dto\Adform.Todo.Dto.csproj" />
-    <ProjectReference Include="..\Adform.Todo.Essentials\Adform.Todo.Essentials.csproj" />
-    <ProjectReference Include="..\Adform.Todo.Manager\Adform.Todo.Manager.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Adform.Todo.Dto\Adform.Todo.Dto.csproj" />
+		<ProjectReference Include="..\Adform.Todo.Essentials\Adform.Todo.Essentials.csproj" />
+		<ProjectReference Include="..\Adform.Todo.Manager\Adform.Todo.Manager.csproj" />
+	</ItemGroup>
 
 </Project>

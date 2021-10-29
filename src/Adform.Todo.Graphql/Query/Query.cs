@@ -2,10 +2,11 @@
 using Adform.Todo.Manager;
 using System.Linq;
 using SimpleInjector;
-using Microsoft.AspNetCore.Mvc;
 using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Model.Models;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using AutoMapper;
 
 namespace Adform.Todo.GraphQl.Query
 {
@@ -25,6 +26,7 @@ namespace Adform.Todo.GraphQl.Query
             _jsonWebTokenHandler = container.GetInstance<IJsonWebTokenHandler>();
             _httpContextAccessor = container.GetInstance<IHttpContextAccessor>();
             _todoListQueryManager = container.GetInstance<ITodoListQueryManager>();
+            _mapper = container.GetInstance<IMapper>();
         }
 
         private readonly ILabelQueryManager _labelQueryManager;
@@ -32,29 +34,35 @@ namespace Adform.Todo.GraphQl.Query
         private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITodoListQueryManager _todoListQueryManager;
+        private readonly IMapper _mapper;
         /// <summary>
         /// Query to get all labels
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Label> GetLabels() => _labelQueryManager.Get().Result.AsQueryable();
+        public IQueryable<Label> GetLabels() => _mapper.Map<IQueryable<Label>>(_labelQueryManager.Get().Result);
 
         /// <summary>
         /// Query to get label by id
         /// </summary>
         /// <returns></returns>
-        public Label GetLabelsbyId(int id) => _labelQueryManager.GetbyId(id).Result;
+        public Label GetLabelsbyId(int id) => _mapper.Map<Label>(_labelQueryManager.GetbyId(id).Result);
 
 
         /// <summary>
         /// Query to get all Item
         /// </summary>
         /// <returns></returns>
-        public ItemPaged GetItem(PagingDataRequest pagingDataRequest)
+        public ItemPaged<Item> GetItem(PagingDataRequest pagingDataRequest)
         {
 
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
-            var tupleResult = _todoItemQueryManager.Get(pagingDataRequest, userId ?? default).Result;
-            return tupleResult;
+            var result = _todoItemQueryManager.Get(pagingDataRequest, userId ?? default).Result;
+            var pageData = new ItemPaged<Item>
+            {
+                data = _mapper.Map<List<Item>>(result),
+                pagingData = _todoItemQueryManager.pagingResponse
+            };
+            return pageData;
         }
 
         /// <summary>
@@ -65,8 +73,7 @@ namespace Adform.Todo.GraphQl.Query
         {
 
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
-            var tupleResult = _todoItemQueryManager.GetbyId(id, userId ?? default).Result;
-
+            var tupleResult = _mapper.Map<Item>(_todoItemQueryManager.GetbyId(id, userId ?? default).Result);
             return tupleResult;
         }
 
@@ -74,13 +81,17 @@ namespace Adform.Todo.GraphQl.Query
         /// Query to get all Item
         /// </summary>
         /// <returns></returns>
-        public ItemListPaged GetList(PagingDataRequest pagingDataRequest)
+        public ItemPaged<ItemList> GetList(PagingDataRequest pagingDataRequest)
         {
 
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
-            var tupleResult = _todoListQueryManager.Get(pagingDataRequest, userId ?? default).Result;
-
-            return tupleResult;
+            var result = _todoListQueryManager.Get(pagingDataRequest, userId ?? default).Result;
+            var pageData = new ItemPaged<ItemList>
+            {
+                data = _mapper.Map<List<ItemList>>(result),
+                pagingData = _todoItemQueryManager.pagingResponse
+            };
+            return pageData;
         }
 
         /// <summary>
@@ -91,9 +102,8 @@ namespace Adform.Todo.GraphQl.Query
         {
 
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
-            var tupleResult = _todoListQueryManager.GetbyId(id, userId ?? default).Result;
-
-            return tupleResult;
+            var result = _mapper.Map<ItemList>(_todoListQueryManager.GetbyId(id, userId ?? default).Result);
+            return result;
         }
     }
 }

@@ -6,10 +6,10 @@ namespace Adform.Todo.DomainService
 {
     public interface ITodoItemCommand
     {
-		Task<int> Add(ToDoItem toDoItem);
-		Task<int> Update(ToDoItem toDoItem);
-		Task<int> Delete(ToDoItem toDoItem);
-		Task<int> DeleteRange(List<ToDoItem> items);
+		Task<int> Add(TodoItem toDoItem);
+		Task<int> Update(TodoItem toDoItem);
+		Task<int> Delete(TodoItem toDoItem);
+		Task<int> DeleteRange(List<TodoItem> items);
 		Task<int> DeletebyId(int id,int userId);
 	}
 }

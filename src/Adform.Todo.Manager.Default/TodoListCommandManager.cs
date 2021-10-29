@@ -1,5 +1,4 @@
 ﻿using Adform.Todo.DomainService;
-using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
 using AutoMapper;
 using System;
@@ -35,9 +34,9 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns>Operation result</returns>
-        public Task<int> Add(ItemListRequest itemList)
+        public Task<int> Add(TodoList itemList)
         {
-            var data = _mapper.Map<ToDoList>(itemList);
+            var data = _mapper.Map<TodoList>(itemList);
             data.CreatedDate = DateTime.Now;
             data.UpdatedDate = DateTime.Now;
             return _todoListCommand.Add(data);
@@ -47,9 +46,9 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns>Operation result</returns>
-        public Task<int> Delete(ItemList itemList)
+        public Task<int> Delete(TodoList itemList)
         {
-            return _todoListCommand.Delete(_mapper.Map<ToDoList>(itemList));
+            return _todoListCommand.Delete(_mapper.Map<TodoList>(itemList));
         }
         /// <summary>
         /// to delete list by the id
@@ -65,23 +64,22 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="itemList"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Update(ItemListRequest itemList)
+        public async Task<int> Update(TodoList itemList)
         {
-            var todoList = _mapper.Map<ToDoList>(itemList);
-            var data = await _todoListQuery.GetbyId(todoList.Id,itemList.UserId);
+            var data = await _todoListQuery.GetbyId(itemList.Id,itemList.UserId??default);
             if (data == null)
             {
                 return 0;
             }
             else
             {
-                var label = (await _labelQueryManager.Get()).Where(x => x.Name == todoList.Label.Name).FirstOrDefault();
+                var label = (await _labelQueryManager.Get()).Where(x => x.Name == itemList.Label.Name).FirstOrDefault();
                 if (label != null)
                 {
                     data.LabelId = label.Id;
                 }
-                data.Name = todoList.Name;
-                data.UpdatedDate = System.DateTime.Now;
+                data.Name = itemList.Name;
+                data.UpdatedDate = DateTime.Now;
                 return await _todoListCommand.Update(data);
             }
         }
@@ -107,7 +105,7 @@ namespace Adform.Todo.Manager.Default
 
         }
 
-        public async Task<int> DeleteRange(List<ToDoList> lists)
+        public async Task<int> DeleteRange(List<TodoList> lists)
         {
             return await _todoListCommand.DeleteRange(lists);
         }

@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Adform.Todo.DomainService.Default\Adform.Todo.DomainService.Default.csproj" />
-    <ProjectReference Include="..\Adform.Todo.Dto\Adform.Todo.Dto.csproj" />
+    <ProjectReference Include="..\Adform.Todo.Model\Adform.Todo.Model.csproj" />
   </ItemGroup>
 
 </Project>

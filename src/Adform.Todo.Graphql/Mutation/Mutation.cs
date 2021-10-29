@@ -1,6 +1,8 @@
 ﻿using Adform.Todo.Dto;
 using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
+using Adform.Todo.Model.Entity;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using SimpleInjector;
 using System.Threading.Tasks;
@@ -13,13 +15,6 @@ namespace Adform.Todo.Graphql.Mutation
     /// </summary>
     public class Mutation
     {
-        private readonly ILabelCommandManager _labelCommandManager;
-        private readonly ITodoListCommandManager _todoListCommandManager;
-        private readonly ITodoItemCommandManager _todoItemCommandManager;
-        private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-
         public Mutation(Container container)
         {
             _labelCommandManager = container.GetInstance<ILabelCommandManager>();
@@ -27,14 +22,23 @@ namespace Adform.Todo.Graphql.Mutation
             _jsonWebTokenHandler = container.GetInstance<IJsonWebTokenHandler>();
             _httpContextAccessor = container.GetInstance<IHttpContextAccessor>();
             _todoItemCommandManager = container.GetInstance<ITodoItemCommandManager>();
+            _mapper = container.GetInstance<IMapper>();
         }
+
+        private readonly ILabelCommandManager _labelCommandManager;
+        private readonly ITodoListCommandManager _todoListCommandManager;
+        private readonly ITodoItemCommandManager _todoItemCommandManager;
+        private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
+
 
         /// <summary>
         /// Mutation to add label
         /// </summary>
         /// <param name="label"></param>
         /// <returns></returns>
-        public async Task<int> Create(Label label) => await _labelCommandManager.Add(label);
+        public async Task<int> Create(Label label) => await _labelCommandManager.Add(_mapper.Map<TodoLabel>(label));
 
 
         /// <summary>
@@ -93,7 +97,7 @@ namespace Adform.Todo.Graphql.Mutation
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             item.UserId = userId ?? default;
-            return await _todoItemCommandManager.Add(item);
+            return await _todoItemCommandManager.Add(_mapper.Map<TodoItem>(item));
         }
 
         /// <summary>
@@ -116,7 +120,7 @@ namespace Adform.Todo.Graphql.Mutation
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             item.UserId = userId ?? default;
-            return await _todoItemCommandManager.Update(item);
+            return await _todoItemCommandManager.Update(_mapper.Map<TodoItem>(item));
         }
 
         /// <summary>
@@ -128,7 +132,7 @@ namespace Adform.Todo.Graphql.Mutation
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             itemList.UserId = userId ?? default;
-            return await _todoListCommandManager.Add(itemList);
+            return await _todoListCommandManager.Add(_mapper.Map<TodoList>(itemList));
         }
 
 
@@ -152,7 +156,7 @@ namespace Adform.Todo.Graphql.Mutation
         {
             var userId = _jsonWebTokenHandler.GetUserIdfromToken(_httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString());
             itemList.UserId = userId ?? default;
-            return await _todoListCommandManager.Update(itemList);
+            return await _todoListCommandManager.Update(_mapper.Map<TodoList>(itemList));
         }
     }
 

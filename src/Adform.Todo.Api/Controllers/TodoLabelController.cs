@@ -1,7 +1,9 @@
 ﻿using Adform.Todo.Dto;
 using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
+using Adform.Todo.Model.Entity;
 using Adform.Todo.Model.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,27 +15,30 @@ using System.Threading.Tasks;
 namespace Adform.Todo.Api.Controllers
 {
     [Authorize]
-    [Route("todo/todolabel")]
+    [Route("todolabel")]
     [ApiController]
     public class TodoLabelController : ControllerBase
     {
         public TodoLabelController(ILabelQueryManager labelQueryManager,
             ILabelCommandManager labelCommandManager,
             IDbLogger logger,
-             IJsonWebTokenHandler jsonWebTokenHandler)
+             IJsonWebTokenHandler jsonWebTokenHandler,
+             IMapper mapper)
         {
             _labelQueryManager = labelQueryManager;
             _labelCommandManager = labelCommandManager;
             _logger = logger;
             _jsonWebTokenHandler = jsonWebTokenHandler;
+            _mapper = mapper;
         }
 
         private readonly ILabelQueryManager _labelQueryManager;
         private readonly ILabelCommandManager _labelCommandManager;
         private readonly IJsonWebTokenHandler _jsonWebTokenHandler;
         private readonly IDbLogger _logger;
+        private readonly IMapper _mapper;
 
-        // GET: todo/<TodolabelController>
+        // GET: <TodolabelController>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(List<Label>), StatusCodes.Status200OK)]
@@ -42,7 +47,7 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _labelQueryManager.Get();
+                var result = _mapper.Map<List<Label>>(await _labelQueryManager.Get());
                 if (result.Count > 0)
                 {
                     return Ok(result);
@@ -60,7 +65,7 @@ namespace Adform.Todo.Api.Controllers
 
         }
 
-        // GET todo/<TodolabelController>/5
+        // GET <TodolabelController>/5
         [HttpGet("getbyid/{id}")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Item), StatusCodes.Status200OK)]
@@ -86,7 +91,7 @@ namespace Adform.Todo.Api.Controllers
             }
         }
 
-        // POST todo/<TodolabelController>
+        // POST <TodolabelController>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
@@ -95,7 +100,7 @@ namespace Adform.Todo.Api.Controllers
         {
             try
             {
-                var result = await _labelCommandManager.Add(label);
+                var result = await _labelCommandManager.Add(_mapper.Map<TodoLabel>(label));
                 if (result > 0)
                 {
                     return Ok(result);
@@ -114,7 +119,7 @@ namespace Adform.Todo.Api.Controllers
 
 
 
-        // DELETE todo/<TodolabelController>/5
+        // DELETE <TodolabelController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]

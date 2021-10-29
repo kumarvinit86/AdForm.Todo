@@ -14,7 +14,7 @@ namespace Adform.Todo.Wireup.Mapper
 
         private void MapRequest()
         {
-            CreateMap<ItemListRequest, ToDoList>()
+            CreateMap<ItemListRequest, TodoList>()
                 .ForMember(to => to.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(to => to.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(to => to.TodoItems, opt => opt.Ignore())

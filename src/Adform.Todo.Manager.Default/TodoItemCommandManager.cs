@@ -1,7 +1,5 @@
 ﻿using Adform.Todo.DomainService;
-using Adform.Todo.Dto;
 using Adform.Todo.Model.Entity;
-using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,39 +15,35 @@ namespace Adform.Todo.Manager.Default
     {
         public TodoItemCommandManager(ITodoItemCommand todoItemCommand,
             ITodoItemQuery todoItemQuery,
-            IMapper mapper,
             ILabelQueryManager labelQueryManager)
 
         {
             _todoItemCommand = todoItemCommand;
             _todoItemQuery = todoItemQuery;
-            _mapper = mapper;
             _labelQueryManager = labelQueryManager;
         }
         private readonly ITodoItemCommand _todoItemCommand;
         private readonly ITodoItemQuery _todoItemQuery;
-        private readonly IMapper _mapper;
         private readonly ILabelQueryManager _labelQueryManager;
         /// <summary>
         /// To add Item into database
         /// </summary>
         /// <param name="item"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Add(Item item)
+        public async Task<int> Add(TodoItem item)
         {
-            var data = _mapper.Map<ToDoItem>(item);
-            data.CreatedDate = DateTime.Now;
-            data.UpdatedDate = DateTime.Now;
-            return await _todoItemCommand.Add(data);
+            item.CreatedDate = DateTime.Now;
+            item.UpdatedDate = DateTime.Now;
+            return await _todoItemCommand.Add(item);
         }
         /// <summary>
         /// To delete item from database
         /// </summary>
         /// <param name="item"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Delete(Item item)
+        public async Task<int> Delete(TodoItem item)
         {
-            return await _todoItemCommand.Delete(_mapper.Map<ToDoItem>(item));
+            return await _todoItemCommand.Delete(item);
         }
         /// <summary>
         /// To delete item from database by id
@@ -65,9 +59,8 @@ namespace Adform.Todo.Manager.Default
         /// </summary>
         /// <param name="item">Object of item</param>
         /// <returns>Operation result</returns>
-        public async Task<int> Update(Item item)
+        public async Task<int> Update(TodoItem todoItem)
         {
-            var todoItem = _mapper.Map<ToDoItem>(item);
             var data = await _todoItemQuery.GetbyId(todoItem.Id, todoItem.UserId ?? default);
             if (data == null)
             {
@@ -127,7 +120,7 @@ namespace Adform.Todo.Manager.Default
             }
         }
 
-        public async Task<int> DeleteRange(List<ToDoItem> items)
+        public async Task<int> DeleteRange(List<TodoItem> items)
         {
             return await _todoItemCommand.DeleteRange(items);
         }

@@ -1,10 +1,10 @@
-﻿using Adform.Todo.Dto;
+﻿using Adform.Todo.Model.Entity;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Manager
 {
     public interface IUserCommandManager
     {
-        Task<int> Add(AppUser user);
+        Task<int> Add(User user);
     }
 }

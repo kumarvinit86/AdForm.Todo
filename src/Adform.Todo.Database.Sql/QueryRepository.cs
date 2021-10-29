@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Adform.Todo.Database.Sql
@@ -40,20 +41,39 @@ namespace Adform.Todo.Database.Sql
         /// </summary>
         /// <param name="id">primary key.</param>
         /// <returns>Single Object of Entity.</returns>
-        public async Task<TEntity> FindById(int id)
+        public async Task<TEntity> FindById(int id, string[] includePath = null)
         {
-            return await Entities.FindAsync(id);
+            if (includePath == null)
+            {
+                return await Entities.FindAsync(id);
+
+            }
+            else
+            {
+                return await Entities.IncludeMultiple(includePath).FindAsync(id);
+            }
         }
         /// <summary>
         /// Generic method to fetch all data of entity
         /// </summary>
         /// <returns>All Object of Entity.</returns>
-        public async Task<List<TEntity>> FillEntities()
+
+        public async Task<List<TEntity>> FillEntities(string[] includePath = null)
         {
-            return await Entities
-                .AsNoTracking()
-                .AsQueryable()
-                .ToListAsync();
+            if (includePath == null)
+            {
+                return await Entities
+                               .AsNoTracking()
+                               .AsQueryable()
+                               .ToListAsync();
+            }
+            else
+            {
+                return await Entities.AsNoTracking()
+                                   .AsQueryable()
+                                   .IncludeMultiple(includePath)
+                                   .ToListAsync();
+            }
         }
 
         /// <summary>
@@ -69,5 +89,9 @@ namespace Adform.Todo.Database.Sql
                 .AsQueryable()
                 .ToListAsync();
         }
+
+
+
     }
+
 }

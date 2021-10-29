@@ -11,18 +11,18 @@ namespace Adform.Todo.DomainService.Default
     /// </summary>
     public class TodoItemCommand : ITodoItemCommand
     {
-        public TodoItemCommand(ICommandRepository<ToDoItem> commandRepository)
+        public TodoItemCommand(ICommandRepository<TodoItem> commandRepository)
         {
             _commandRepository = commandRepository;
         }
 
-        private readonly ICommandRepository<ToDoItem> _commandRepository;
+        private readonly ICommandRepository<TodoItem> _commandRepository;
         /// <summary>
         /// To add Item into database
         /// </summary>
         /// <param name="toDoItem"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Add(ToDoItem toDoItem)
+        public async Task<int> Add(TodoItem toDoItem)
         {
             return await _commandRepository.Add(toDoItem);
         }
@@ -31,7 +31,7 @@ namespace Adform.Todo.DomainService.Default
         /// </summary>
         /// <param name="toDoItem"></param>
         /// <returns>Operation result</returns>
-        public async Task<int> Delete(ToDoItem toDoItem)
+        public async Task<int> Delete(TodoItem toDoItem)
         {
             return await _commandRepository.Remove(toDoItem);
         }
@@ -52,12 +52,12 @@ namespace Adform.Todo.DomainService.Default
         /// </summary>
         /// <param name="toDoItem">Object of item</param>
         /// <returns>Operation result</returns>
-        public async Task<int> Update(ToDoItem toDoItem)
+        public async Task<int> Update(TodoItem toDoItem)
         {
             return await _commandRepository.Update(toDoItem);
         }
 
-        public async Task<int> DeleteRange(List<ToDoItem> items)
+        public async Task<int> DeleteRange(List<TodoItem> items)
         {
             return await _commandRepository.RemoveRange(items);
         }
