@@ -1,7 +1,9 @@
 ﻿using Adform.Todo.Api.Controllers;
+using Adform.Todo.Api.Test.Inititializer;
 using Adform.Todo.Dto;
 using Adform.Todo.Essentials.Authentication;
 using Adform.Todo.Manager;
+using Adform.Todo.Model.Entity;
 using Adform.Todo.Model.Models;
 using AutoFixture;
 using FluentAssertions;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SeriLogger.DbLogger;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -24,14 +27,13 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var pagingData = new Mock<PagingDataRequest>();
-            var shouldreturn = new Fixture().Create<Task<ItemListPaged>>();
-
+            var shouldreturn = new Fixture().Create<Task<List<TodoList>>>();
             todoListQueryManager.Setup(x => x.Get(pagingData.Object, 2)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(2);
             var todoItemController = new TodoListController(todoListQueryManager.Object,
                 null,
                 logger.Object,
-                jsonWebTokenHandler.Object);
+                jsonWebTokenHandler.Object, MapperInitializer.Mapper);
 
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
@@ -48,13 +50,13 @@ namespace Adform.Todo.Api.Test
             var todoListQueryManager = new Mock<ITodoListQueryManager>();
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
-            var shouldreturn = new Fixture().Create<Task<ItemList>>();
+            var shouldreturn = new Fixture().Create<Task<TodoList>>();
             todoListQueryManager.Setup(x => x.GetbyId(2,1)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoListController(todoListQueryManager.Object,
                 null,
                 logger.Object,
-                jsonWebTokenHandler.Object);
+                jsonWebTokenHandler.Object,MapperInitializer.Mapper);
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
@@ -72,18 +74,19 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var shouldreturn = fixture.Create<Task<int>>();
-            var addParameter = fixture.Create<ItemListRequest>();
+            var addParameter = fixture.Create<TodoList>();
             todoListCommandManager.Setup(x => x.Add(addParameter)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoListController(null,
                         todoListCommandManager.Object,
                         logger.Object,
-                        jsonWebTokenHandler.Object);
+                        jsonWebTokenHandler.Object, MapperInitializer.Mapper);
 
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoItemController.Post(addParameter).Result;
+            var result = (ObjectResult)todoItemController
+                .Post(MapperInitializer.Mapper.Map<ItemList>(addParameter)).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -97,18 +100,20 @@ namespace Adform.Todo.Api.Test
             var logger = new Mock<IDbLogger>();
             var jsonWebTokenHandler = new Mock<IJsonWebTokenHandler>();
             var shouldreturn = fixture.Create<Task<int>>();
-            var addParameter = fixture.Create<ItemListRequest>();
+            var addParameter = fixture.Create<TodoList>();
             todoListCommandManager.Setup(x => x.Update(addParameter)).Returns(shouldreturn);
             jsonWebTokenHandler.Setup(x => x.GetUserIdfromToken(It.IsAny<string>())).Returns(1);
             var todoItemController = new TodoListController(null,
                         todoListCommandManager.Object,
                         logger.Object,
-                        jsonWebTokenHandler.Object);
+                        jsonWebTokenHandler.Object,
+                        MapperInitializer.Mapper);
 
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
             //Act
-            var result = (ObjectResult)todoItemController.Put(addParameter).Result;
+            var result = (ObjectResult)todoItemController
+                .Put(MapperInitializer.Mapper.Map<ItemList>(addParameter)).Result;
             //Assert
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
@@ -127,7 +132,8 @@ namespace Adform.Todo.Api.Test
             var todoItemController = new TodoListController(null,
                         todoListCommandManager.Object,
                         logger.Object,
-                        jsonWebTokenHandler.Object);
+                        jsonWebTokenHandler.Object,
+                        MapperInitializer.Mapper);
 
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";
@@ -151,7 +157,8 @@ namespace Adform.Todo.Api.Test
             var todoItemController = new TodoListController(null,
                         todoListCommandManager.Object,
                         logger.Object,
-                        jsonWebTokenHandler.Object);
+                        jsonWebTokenHandler.Object,
+                        MapperInitializer.Mapper);
 
             todoItemController.ControllerContext.HttpContext = new DefaultHttpContext();
             todoItemController.ControllerContext.HttpContext.Request.Headers["Authorization"] = "<token string>";

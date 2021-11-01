@@ -147,7 +147,7 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Put([FromBody] ItemListRequest itemList)
+        public async Task<IActionResult> Put([FromBody] ItemList itemList)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace Adform.Todo.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<ItemListRequest> patchDoc)
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<ItemList> patchDoc)
         {
             try
             {
@@ -189,7 +189,7 @@ namespace Adform.Todo.Api.Controllers
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "User Id is required" });
                 }
-                var itemList = _mapper.Map<ItemListRequest>(await _todoListQueryManager.GetbyIdforPatch(id, userId ?? default));
+                var itemList = _mapper.Map<ItemList>(await _todoListQueryManager.GetbyIdforPatch(id, userId ?? default));
                 if (itemList == null)
                 {
                     return BadRequest(new ApiResponse() { Status = false, Message = "No record found for update." });
